@@ -1,6 +1,6 @@
 ﻿using Chart.Points;
 using System.Collections.Generic;
-using System.Drawing;
+using System.Windows.Media;
 
 namespace Chart.Series {
     public interface ISerie : IEnumerable<IPoint> {

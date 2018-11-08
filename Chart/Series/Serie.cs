@@ -1,7 +1,6 @@
-﻿using System;
-using Chart.Points;
+﻿using Chart.Points;
 using System.Collections.ObjectModel;
-using System.Drawing;
+using System.Windows.Media;
 
 namespace Chart.Series {
     public class Serie : ObservableCollection<IPoint>, ISerie {
@@ -10,7 +9,7 @@ namespace Chart.Series {
         public double LineWidth { get; set; }
 
         public Serie() {
-            this.Title = String.Empty;
+            this.Title = string.Empty;
             this.LineBrush = Brushes.Black;
             this.LineWidth = 1;
         }
