@@ -54,6 +54,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Series\ISerie.cs" />
     <Compile Include="Series\Serie.cs" />
+    <Compile Include="SerieVisualizers\ISerieVisualizer.cs" />
+    <Compile Include="SerieVisualizers\LineVisualizer.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
