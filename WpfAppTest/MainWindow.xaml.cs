@@ -1,28 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Chart.Points;
+using Chart.Series;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-namespace WpfAppTest
-{
+namespace WpfAppTest {
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
-    {
-        public MainWindow()
-        {
-            InitializeComponent();
+    public partial class MainWindow : Window {
+        private Serie _serie1;
+
+        public MainWindow() {
+            this.InitializeComponent();
+            this._serie1 = new Serie() {
+                LineBrush = Brushes.Blue,
+                LineWidth = 2,
+                Title = "Hello, World!"
+            };
+            this._serie1.Add(new PointDouble(0, 0));
+            this._serie1.Add(new PointDouble(0.3, 0.7));
+            this._serie1.Add(new PointDouble(1, 1));
+
+            this.plotter1.Series = new ISerie[] { this._serie1 };
         }
     }
 }
