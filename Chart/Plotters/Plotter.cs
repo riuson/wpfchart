@@ -36,8 +36,8 @@ namespace Chart.Plotters {
 
                 foreach (var serie in this.mSeries) {
                     var path = new Path() {
-                        StrokeThickness = serie.LineWidth,
-                        Stroke = serie.LineBrush
+                        StrokeThickness = serie.StrokeThickness,
+                        Stroke = serie.Stroke
                     };
                     this.mPaths.Add(serie, path);
                     this.Children.Add(path);

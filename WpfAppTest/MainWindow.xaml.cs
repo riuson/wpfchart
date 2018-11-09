@@ -20,13 +20,13 @@ namespace WpfAppTest {
         public MainWindow() {
             this.InitializeComponent();
             this.mSerie1 = new Serie() {
-                LineBrush = Brushes.Blue,
-                LineWidth = 2,
+                Stroke = Brushes.Blue,
+                StrokeThickness = 2,
                 Title = "Hello, World!"
             };
             this.mSerie2 = new Serie() {
-                LineBrush = Brushes.Red,
-                LineWidth = 2,
+                Stroke = Brushes.Red,
+                StrokeThickness = 2,
                 Title = "Serie 2"
             };
 
