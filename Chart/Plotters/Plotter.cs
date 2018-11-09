@@ -8,7 +8,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 
 namespace Chart.Plotters {
-    public class Plotter : Panel {
+    public class Plotter : Panel, IPlotter {
         private IEnumerable<ISerie> mSeries;
         private Dictionary<ISerie, Path> mPaths;
 
