@@ -9,21 +9,21 @@ using System.Windows.Shapes;
 
 namespace Chart.Plotters {
     public class Plotter : Panel {
-        private Path mVisualizedSeries;
         private IEnumerable<ISerie> mSeries;
+        private Dictionary<ISerie, Path> mPaths;
 
         public Plotter() {
             this.mSeries = new ISerie[] { };
-            this.mVisualizedSeries = new Path() {
-                Stroke = Brushes.Blue,
-                StrokeThickness = 3
-            };
-            this.Children.Add(this.mVisualizedSeries);
+            this.mPaths = new Dictionary<ISerie, Path>();
         }
 
         public IEnumerable<ISerie> Series {
             get => this.mSeries;
             set {
+                foreach (var pair in this.mPaths) {
+                    this.Children.Remove(pair.Value);
+                }
+
                 foreach (var serie in this.mSeries.OfType<INotifyCollectionChanged>()) {
                     serie.CollectionChanged -= this.OnSerieCollectionChanged;
                 }
@@ -33,19 +33,23 @@ namespace Chart.Plotters {
                 foreach (var serie in this.mSeries.OfType<INotifyCollectionChanged>()) {
                     serie.CollectionChanged += this.OnSerieCollectionChanged;
                 }
+
+                foreach (var serie in this.mSeries) {
+                    var path = new Path() {
+                        StrokeThickness = serie.LineWidth,
+                        Stroke = serie.LineBrush
+                    };
+                    this.mPaths.Add(serie, path);
+                    this.Children.Add(path);
+                }
             }
         }
 
         protected override Size MeasureOverride(Size availableSize) {
-            var geometryGroups = this.Series?.Select(serie => serie.Visualizer.GetGeometryGroup(serie, availableSize)).ToArray();
-
-            var combinedGroup = new GeometryGroup();
-
-            foreach (var group in geometryGroups) {
-                combinedGroup.Children.Add(group);
+            foreach (var serie in this.mSeries) {
+                var group = serie.Visualizer.GetGeometryGroup(serie, availableSize);
+                this.mPaths[serie].Data = group;
             }
-
-            this.mVisualizedSeries.Data = combinedGroup;
 
             return availableSize;
         }
