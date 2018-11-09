@@ -29,6 +29,9 @@ namespace WpfAppTest {
                 StrokeThickness = 2,
                 Title = "Serie 2"
             };
+            this.grid1.Stroke = Brushes.DarkGreen;
+            this.grid1.StrokeThickness = 0.5;
+            this.grid1.Interval = 50;
 
             this.plotter1.Series = new ISerie[] { this.mSerie1, this.mSerie2 };
 

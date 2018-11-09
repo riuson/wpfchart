@@ -47,6 +47,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Grids\Grid.cs" />
+    <Compile Include="Grids\IGrid.cs" />
     <Compile Include="Plotters\IPlotter.cs" />
     <Compile Include="Plotters\Plotter.cs" />
     <Compile Include="Points\PointBase.cs" />
