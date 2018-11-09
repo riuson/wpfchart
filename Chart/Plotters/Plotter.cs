@@ -34,5 +34,13 @@ namespace Chart.Plotters {
 
             return availableSize;
         }
+
+        protected override Size ArrangeOverride(Size finalSize) {
+            foreach (UIElement item in this.Children) {
+                item.Arrange(new Rect(finalSize));
+            }
+
+            return finalSize;
+        }
     }
 }
