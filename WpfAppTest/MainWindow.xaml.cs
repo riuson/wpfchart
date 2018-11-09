@@ -36,6 +36,14 @@ namespace WpfAppTest {
             this.mProgress = new Progress<Tuple<double, double>>(item => {
                 this.mSerie1.Add(new PointDateTime(DateTime.Now, item.Item1));
                 this.mSerie2.Add(new PointDateTime(DateTime.Now, item.Item2));
+
+                if (this.mSerie1.Count > 20) {
+                    this.mSerie1.RemoveAt(0);
+                }
+
+                if (this.mSerie2.Count > 20) {
+                    this.mSerie2.RemoveAt(0);
+                }
             });
             this.mTask = Task.Factory.StartNew(o => this.Method((CancellationToken)o, this.mProgress), this.mToken.Token, this.mToken.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
 
