@@ -3,10 +3,11 @@ using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
+using Chart.Plotters;
 
 namespace Chart.SerieVisualizers {
     public class LineVisualizer : ISerieVisualizer {
-        public GeometryGroup GetGeometryGroup(ISerie serie, Size size) {
+        public GeometryGroup GetGeometryGroup(ISerie serie, Size size, SeriesDataRange dataRange) {
             var result = new GeometryGroup();
 
             if (!serie.Any()) {
@@ -25,22 +26,10 @@ namespace Chart.SerieVisualizers {
                 return result;
             }
 
-            double? minX = null;
-            double? maxX = null;
-            double? minY = null;
-            double? maxY = null;
-
-            foreach (var point in serie) {
-                minX = !minX.HasValue ? point.XValue : Math.Min(minX.Value, point.XValue);
-                maxX = !maxX.HasValue ? point.XValue : Math.Max(maxX.Value, point.XValue);
-                minY = !minY.HasValue ? point.YValue : Math.Min(minY.Value, point.YValue);
-                maxY = !maxY.HasValue ? point.YValue : Math.Max(maxY.Value, point.YValue);
-            }
-
             var geometryPoints = serie.Select(point =>
                 new Point(
-                    this.Proportion(point.XValue, minX.Value, maxX.Value) * size.Width,
-                    this.Proportion(point.YValue, minY.Value, maxY.Value) * size.Height));
+                    this.Proportion(point.XValue, dataRange.MinX, dataRange.MaxX) * size.Width,
+                    this.Proportion(point.YValue, dataRange.MinY, dataRange.MaxY) * size.Height));
 
             Point? previousPoint = null;
 

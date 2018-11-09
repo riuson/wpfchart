@@ -1,10 +1,10 @@
 ﻿using Chart.Series;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using System.Windows.Shapes;
 
 namespace Chart.Plotters {
@@ -15,6 +15,7 @@ namespace Chart.Plotters {
         public Plotter() {
             this.mSeries = new ISerie[] { };
             this.mPaths = new Dictionary<ISerie, Path>();
+            this.Range = new SeriesDataRange();
         }
 
         public IEnumerable<ISerie> Series {
@@ -45,9 +46,13 @@ namespace Chart.Plotters {
             }
         }
 
+        public SeriesDataRange Range { get; private set; }
+
         protected override Size MeasureOverride(Size availableSize) {
+            this.UpdateRange();
+
             foreach (var serie in this.mSeries) {
-                var group = serie.Visualizer.GetGeometryGroup(serie, availableSize);
+                var group = serie.Visualizer.GetGeometryGroup(serie, availableSize, this.Range);
                 this.mPaths[serie].Data = group;
             }
 
@@ -64,6 +69,28 @@ namespace Chart.Plotters {
 
         private void OnSerieCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
             this.InvalidateMeasure();
+        }
+
+        private void UpdateRange() {
+            double? minX = null;
+            double? maxX = null;
+            double? minY = null;
+            double? maxY = null;
+
+            foreach (var serie in this.Series) {
+
+                foreach (var point in serie) {
+                    minX = !minX.HasValue ? point.XValue : Math.Min(minX.Value, point.XValue);
+                    maxX = !maxX.HasValue ? point.XValue : Math.Max(maxX.Value, point.XValue);
+                    minY = !minY.HasValue ? point.YValue : Math.Min(minY.Value, point.YValue);
+                    maxY = !maxY.HasValue ? point.YValue : Math.Max(maxY.Value, point.YValue);
+                }
+            }
+
+            this.Range.MinX = minX ?? 0;
+            this.Range.MinY = minY ?? 0;
+            this.Range.MaxX = maxX ?? 0;
+            this.Range.MaxY = maxY ?? 0;
         }
     }
 }

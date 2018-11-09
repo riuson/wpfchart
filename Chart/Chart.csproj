@@ -51,6 +51,7 @@
     <Compile Include="Grids\IGrid.cs" />
     <Compile Include="Plotters\IPlotter.cs" />
     <Compile Include="Plotters\Plotter.cs" />
+    <Compile Include="Plotters\SeriesDataRange.cs" />
     <Compile Include="Points\PointBase.cs" />
     <Compile Include="Points\PointDateTime.cs" />
     <Compile Include="Points\PointDouble.cs" />

@@ -63,7 +63,7 @@ namespace WpfAppTest {
             this.mSerie1.Clear();
 
             while (!cancellationToken.IsCancellationRequested) {
-                progress.Report(new Tuple<double, double>(0x800000 + rnd.NextDouble() * 0x100000, 0x800000 + rnd.NextDouble() * 0x100000));
+                progress.Report(new Tuple<double, double>(0x800000 + rnd.NextDouble() * 0x100000, 0x850000 + rnd.NextDouble() * 0x100000));
                 cancellationToken.WaitHandle.WaitOne(500);
             }
         }
