@@ -9,38 +9,51 @@ namespace Chart.SerieVisualizers {
         public GeometryGroup GetGeometryGroup(ISerie serie, Size size) {
             var result = new GeometryGroup();
 
-            if (serie.Any()) {
+            if (!serie.Any()) {
+                return result;
+            }
 
-                double? minX = null;
-                double? maxX = null;
-                double? minY = null;
-                double? maxY = null;
+            var count = 0;
 
-                foreach (var point in serie) {
-                    minX = !minX.HasValue ? point.XValue : Math.Min(minX.Value, point.XValue);
-                    maxX = !maxX.HasValue ? point.XValue : Math.Max(maxX.Value, point.XValue);
-                    minY = !minY.HasValue ? point.YValue : Math.Min(minY.Value, point.YValue);
-                    maxY = !maxY.HasValue ? point.YValue : Math.Max(maxY.Value, point.YValue);
+            foreach (var _ in serie) {
+                if (++count > 1) {
+                    break;
                 }
+            }
 
-                var geometryPoints = serie.Select(point =>
-                    new Point(
-                        this.Proportion(point.XValue, minX.Value, maxX.Value) * size.Width,
-                        this.Proportion(point.YValue, minY.Value, maxY.Value) * size.Height));
+            if (count < 2) {
+                return result;
+            }
 
-                Point? previousPoint = null;
+            double? minX = null;
+            double? maxX = null;
+            double? minY = null;
+            double? maxY = null;
 
-                foreach (var point in geometryPoints) {
-                    if (!previousPoint.HasValue) {
-                        previousPoint = point;
-                        continue;
-                    }
+            foreach (var point in serie) {
+                minX = !minX.HasValue ? point.XValue : Math.Min(minX.Value, point.XValue);
+                maxX = !maxX.HasValue ? point.XValue : Math.Max(maxX.Value, point.XValue);
+                minY = !minY.HasValue ? point.YValue : Math.Min(minY.Value, point.YValue);
+                maxY = !maxY.HasValue ? point.YValue : Math.Max(maxY.Value, point.YValue);
+            }
 
-                    var lineSegment = new LineGeometry(previousPoint.Value, point);
-                    result.Children.Add(lineSegment);
+            var geometryPoints = serie.Select(point =>
+                new Point(
+                    this.Proportion(point.XValue, minX.Value, maxX.Value) * size.Width,
+                    this.Proportion(point.YValue, minY.Value, maxY.Value) * size.Height));
 
+            Point? previousPoint = null;
+
+            foreach (var point in geometryPoints) {
+                if (!previousPoint.HasValue) {
                     previousPoint = point;
+                    continue;
                 }
+
+                var lineSegment = new LineGeometry(previousPoint.Value, point);
+                result.Children.Add(lineSegment);
+
+                previousPoint = point;
             }
 
             return result;

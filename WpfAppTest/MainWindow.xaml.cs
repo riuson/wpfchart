@@ -29,12 +29,6 @@ namespace WpfAppTest {
                 LineWidth = 2,
                 Title = "Serie 2"
             };
-            this.mSerie1.Add(new PointDouble(0, 0));
-            this.mSerie1.Add(new PointDouble(0.3, 0.7));
-            this.mSerie1.Add(new PointDouble(1, 1));
-            this.mSerie2.Add(new PointDouble(0, 0));
-            this.mSerie2.Add(new PointDouble(0.3, 0.7));
-            this.mSerie2.Add(new PointDouble(1, 1));
 
             this.plotter1.Series = new ISerie[] { this.mSerie1, this.mSerie2 };
 
