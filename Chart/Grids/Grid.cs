@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -14,6 +15,9 @@ namespace Chart.Grids {
             this.StrokeThickness = 1;
             this.Interval = 50;
             this.Children.Add(this.mPath);
+
+            this.MarksX = new double[] { };
+            this.MarksY = new double[] { };
         }
 
         public Brush Stroke {
@@ -27,6 +31,8 @@ namespace Chart.Grids {
         }
 
         public double Interval { get; set; }
+        public double[] MarksX { get; private set; }
+        public double[] MarksY { get; private set; }
 
         protected override Size MeasureOverride(Size availableSize) {
             var group = new GeometryGroup();
@@ -35,26 +41,32 @@ namespace Chart.Grids {
 
             if (count > 2) {
                 var step = availableSize.Width / count;
+                this.MarksX = Enumerable.Range(0, Convert.ToInt32(count)).Select(i => i * step).ToArray();
 
-                for (var i = 0; i < Convert.ToInt32(count); i++) {
+                foreach (var x in this.MarksX) {
                     group.Children.Add(
                         new LineGeometry(
-                            new Point(i * step, 0),
-                            new Point(i * step, availableSize.Height)));
+                            new Point(x, 0),
+                            new Point(x, availableSize.Height)));
                 }
+            } else {
+                this.MarksX = new double[] { };
             }
 
             count = Math.Ceiling(availableSize.Height / this.Interval);
 
             if (count > 2) {
                 var step = availableSize.Height / count;
+                this.MarksY = Enumerable.Range(0, Convert.ToInt32(count)).Select(i => i * step).ToArray();
 
-                for (var i = 0; i < Convert.ToInt32(count); i++) {
+                foreach (var y in this.MarksY) {
                     group.Children.Add(
                         new LineGeometry(
-                            new Point(0, i * step),
-                            new Point(availableSize.Width, i * step)));
+                            new Point(0, y),
+                            new Point(availableSize.Width, y)));
                 }
+            } else {
+                this.MarksY = new double[] { };
             }
 
             this.mPath.Data = group;

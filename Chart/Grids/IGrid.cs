@@ -5,5 +5,7 @@ namespace Chart.Grids {
         Brush Stroke { get; }
         double StrokeThickness { get; }
         double Interval { get; }
+        double[] MarksX { get; }
+        double[] MarksY { get; }
     }
 }
