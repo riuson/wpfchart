@@ -51,12 +51,16 @@ namespace Chart.Plotters {
         protected override Size MeasureOverride(Size availableSize) {
             this.UpdateRange();
 
+            var size = new Size(
+                double.IsPositiveInfinity(availableSize.Width) ? 100 : availableSize.Width,
+                double.IsPositiveInfinity(availableSize.Height) ? 100 : availableSize.Height);
+
             foreach (var serie in this.mSeries) {
-                var group = serie.Visualizer.GetGeometryGroup(serie, availableSize, this.Range);
+                var group = serie.Visualizer.GetGeometryGroup(serie, size, this.Range);
                 this.mPaths[serie].Data = group;
             }
 
-            return availableSize;
+            return size;
         }
 
         protected override Size ArrangeOverride(Size finalSize) {

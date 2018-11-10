@@ -1,6 +1,4 @@
 ﻿using Chart.Grids;
-using System;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -43,11 +41,14 @@ namespace Chart.Ticks {
             var group = new GeometryGroup();
             var grid = this.Grid;
 
+            var width = double.IsPositiveInfinity(availableSize.Width) ? this.StrokeLength : availableSize.Width;
+            var height = double.IsPositiveInfinity(availableSize.Height) ? this.StrokeLength : availableSize.Height;
+
             if (grid != null) {
                 switch (this.Side) {
                     case Dock.Left:
                     case Dock.Right: {
-                            availableSize = new Size(this.StrokeLength, availableSize.Height);
+                            availableSize = new Size(this.StrokeLength, height);
 
                             foreach (var y in grid.MarksY) {
                                 group.Children.Add(
@@ -59,7 +60,7 @@ namespace Chart.Ticks {
                         }
                     case Dock.Top:
                     case Dock.Bottom: {
-                            availableSize = new Size(availableSize.Width, this.StrokeLength);
+                            availableSize = new Size(width, this.StrokeLength);
 
                             foreach (var x in grid.MarksX) {
                                 group.Children.Add(
@@ -72,12 +73,13 @@ namespace Chart.Ticks {
                         }
                 }
             } else {
-                availableSize = Size.Empty;
+                width = 0;
+                height = 0;
             }
 
             this.mPath.Data = group;
 
-            return availableSize;
+            return new Size(width, height);
         }
 
         protected override Size ArrangeOverride(Size finalSize) {

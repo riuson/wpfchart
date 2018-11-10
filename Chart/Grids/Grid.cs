@@ -37,33 +37,37 @@ namespace Chart.Grids {
         protected override Size MeasureOverride(Size availableSize) {
             var group = new GeometryGroup();
 
-            var count = Math.Ceiling(availableSize.Width / this.Interval);
+            var size = new Size(
+                double.IsPositiveInfinity(availableSize.Width) ? 100 : availableSize.Width,
+                double.IsPositiveInfinity(availableSize.Height) ? 100 : availableSize.Height);
+
+            var count = Math.Ceiling(size.Width / this.Interval);
 
             if (count > 2) {
-                var step = availableSize.Width / count;
+                var step = size.Width / count;
                 this.MarksX = Enumerable.Range(0, Convert.ToInt32(count)).Select(i => i * step).ToArray();
 
                 foreach (var x in this.MarksX) {
                     group.Children.Add(
                         new LineGeometry(
                             new Point(x, 0),
-                            new Point(x, availableSize.Height)));
+                            new Point(x, size.Height)));
                 }
             } else {
                 this.MarksX = new double[] { };
             }
 
-            count = Math.Ceiling(availableSize.Height / this.Interval);
+            count = Math.Ceiling(size.Height / this.Interval);
 
             if (count > 2) {
-                var step = availableSize.Height / count;
+                var step = size.Height / count;
                 this.MarksY = Enumerable.Range(0, Convert.ToInt32(count)).Select(i => i * step).ToArray();
 
                 foreach (var y in this.MarksY) {
                     group.Children.Add(
                         new LineGeometry(
                             new Point(0, y),
-                            new Point(availableSize.Width, y)));
+                            new Point(size.Width, y)));
                 }
             } else {
                 this.MarksY = new double[] { };
@@ -71,7 +75,7 @@ namespace Chart.Grids {
 
             this.mPath.Data = group;
 
-            return availableSize;
+            return size;
         }
 
         protected override Size ArrangeOverride(Size finalSize) {
