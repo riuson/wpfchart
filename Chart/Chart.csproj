@@ -60,6 +60,8 @@
     <Compile Include="Series\Serie.cs" />
     <Compile Include="SerieVisualizers\ISerieVisualizer.cs" />
     <Compile Include="SerieVisualizers\LineVisualizer.cs" />
+    <Compile Include="Ticks\ITicks.cs" />
+    <Compile Include="Ticks\Ticks.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

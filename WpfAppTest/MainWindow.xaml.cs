@@ -4,6 +4,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace WpfAppTest {
@@ -34,6 +35,11 @@ namespace WpfAppTest {
             this.grid1.Interval = 50;
 
             this.plotter1.Series = new ISerie[] { this.mSerie1, this.mSerie2 };
+
+            this.ticksLeft.Grid = this.grid1;
+            this.ticksLeft.Side = Dock.Left;
+            this.ticksBottom.Grid = this.grid1;
+            this.ticksBottom.Side = Dock.Bottom;
 
             this.mToken = new CancellationTokenSource();
             this.mProgress = new Progress<Tuple<double, double>>(item => {

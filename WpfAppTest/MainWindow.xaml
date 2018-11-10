@@ -6,18 +6,25 @@
         xmlns:local="clr-namespace:WpfAppTest"
         xmlns:chartPlotters="clr-namespace:Chart.Plotters;assembly=Chart"
         xmlns:chartGrids="clr-namespace:Chart.Grids;assembly=Chart"
+        xmlns:chartTicks="clr-namespace:Chart.Ticks;assembly=Chart"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <chartPlotters:Plotter x:Name="plotter1"
-                               Grid.Row="0" Grid.Column="0"/>
+                               Grid.Row="0" Grid.Column="1"/>
         <chartGrids:Grid x:Name="grid1"
-                         Grid.Row="0" Grid.Column="0"/>
+                         Grid.Row="0" Grid.Column="1"/>
+        <chartTicks:Ticks x:Name="ticksLeft"
+                          Grid.Row="0" Grid.Column="0"/>
+        <chartTicks:Ticks x:Name="ticksBottom"
+                          Grid.Row="1" Grid.Column="1"/>
     </Grid>
 </Window>
