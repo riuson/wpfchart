@@ -45,7 +45,7 @@ namespace Chart.Grids {
 
             if (count > 2) {
                 var step = size.Width / count;
-                this.MarksX = Enumerable.Range(0, Convert.ToInt32(count)).Select(i => i * step).ToArray();
+                this.MarksX = Enumerable.Range(0, Convert.ToInt32(count + 1)).Select(i => i * step).ToArray();
 
                 foreach (var x in this.MarksX) {
                     group.Children.Add(
@@ -61,7 +61,7 @@ namespace Chart.Grids {
 
             if (count > 2) {
                 var step = size.Height / count;
-                this.MarksY = Enumerable.Range(0, Convert.ToInt32(count)).Select(i => i * step).ToArray();
+                this.MarksY = Enumerable.Range(0, Convert.ToInt32(count + 1)).Select(i => i * step).ToArray();
 
                 foreach (var y in this.MarksY) {
                     group.Children.Add(
