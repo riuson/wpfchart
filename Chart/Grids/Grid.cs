@@ -7,6 +7,18 @@ using System.Windows.Shapes;
 
 namespace Chart.Grids {
     public class Grid : Panel, IGrid {
+        #region Dependency properties
+        public static readonly DependencyProperty MarksProperty;
+
+        static Grid() {
+            MarksProperty = DependencyProperty.Register("Marks",
+                typeof(Marks), typeof(Grid),
+                new FrameworkPropertyMetadata(
+                    null,
+                    FrameworkPropertyMetadataOptions.None));
+        }
+        #endregion
+
         private readonly Path mPath;
 
         public Grid() {
@@ -30,7 +42,11 @@ namespace Chart.Grids {
         }
 
         public double Interval { get; set; }
-        public Marks Marks { get; private set; }
+
+        public Marks Marks {
+            get => this.GetValue(Grid.MarksProperty) as Marks;
+            set => this.SetValue(Grid.MarksProperty, value);
+        }
 
         protected override Size MeasureOverride(Size availableSize) {
             var group = new GeometryGroup();

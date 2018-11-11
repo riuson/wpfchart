@@ -23,8 +23,10 @@
         <chartGrids:Grid x:Name="grid1"
                          Grid.Row="0" Grid.Column="1"/>
         <chartTicks:Ticks x:Name="ticksLeft"
-                          Grid.Row="0" Grid.Column="0"/>
+                          Grid.Row="0" Grid.Column="0"
+                          Marks="{Binding Path=Marks, ElementName=grid1}"/>
         <chartTicks:Ticks x:Name="ticksBottom"
-                          Grid.Row="1" Grid.Column="1"/>
+                          Grid.Row="1" Grid.Column="1"
+                          Marks="{Binding Path=Marks, ElementName=grid1}"/>
     </Grid>
 </Window>

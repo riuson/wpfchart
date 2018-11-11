@@ -6,6 +6,18 @@ using System.Windows.Shapes;
 
 namespace Chart.Ticks {
     public class Ticks : Panel, ITicks {
+        #region Dependency properties
+        public static readonly DependencyProperty MarksProperty;
+
+        static Ticks() {
+            MarksProperty = DependencyProperty.Register("Marks",
+                typeof(Marks), typeof(Ticks),
+                new FrameworkPropertyMetadata(
+                    null,
+                    FrameworkPropertyMetadataOptions.AffectsMeasure));
+        }
+        #endregion
+
         private readonly Path mPath;
 
         public Ticks() {
@@ -37,20 +49,25 @@ namespace Chart.Ticks {
 
         public double StrokeLength { get; set; }
 
+        public Marks Marks {
+            get => this.GetValue(Ticks.MarksProperty) as Marks;
+            set => this.SetValue(Ticks.MarksProperty, value);
+        }
+
         protected override Size MeasureOverride(Size availableSize) {
             var group = new GeometryGroup();
-            var grid = this.Grid;
+            var marks = this.Marks;
 
             var width = double.IsPositiveInfinity(availableSize.Width) ? this.StrokeLength : availableSize.Width;
             var height = double.IsPositiveInfinity(availableSize.Height) ? this.StrokeLength : availableSize.Height;
 
-            if (grid != null) {
+            if (marks != null) {
                 switch (this.Side) {
                     case Dock.Left:
                     case Dock.Right: {
                             width = this.StrokeLength;
 
-                            foreach (var y in grid.Marks.Y) {
+                            foreach (var y in marks.Y) {
                                 group.Children.Add(
                                     new LineGeometry(
                                         new Point(0, y),
@@ -62,7 +79,7 @@ namespace Chart.Ticks {
                     case Dock.Bottom: {
                             height = this.StrokeLength;
 
-                            foreach (var x in grid.Marks.X) {
+                            foreach (var x in marks.X) {
                                 group.Children.Add(
                                     new LineGeometry(
                                         new Point(x, 0),
