@@ -16,8 +16,7 @@ namespace Chart.Grids {
             this.Interval = 50;
             this.Children.Add(this.mPath);
 
-            this.MarksX = new double[] { };
-            this.MarksY = new double[] { };
+            this.Marks = new Marks();
         }
 
         public Brush Stroke {
@@ -31,8 +30,7 @@ namespace Chart.Grids {
         }
 
         public double Interval { get; set; }
-        public double[] MarksX { get; private set; }
-        public double[] MarksY { get; private set; }
+        public Marks Marks { get; private set; }
 
         protected override Size MeasureOverride(Size availableSize) {
             var group = new GeometryGroup();
@@ -42,38 +40,36 @@ namespace Chart.Grids {
                 double.IsPositiveInfinity(availableSize.Height) ? 100 : availableSize.Height);
 
             var count = Math.Ceiling(size.Width / this.Interval);
+            var marks = new Marks();
 
             if (count > 2) {
                 var step = size.Width / count;
-                this.MarksX = Enumerable.Range(0, Convert.ToInt32(count + 1)).Select(i => i * step).ToArray();
+                marks.X = Enumerable.Range(0, Convert.ToInt32(count + 1)).Select(i => i * step).ToArray();
 
-                foreach (var x in this.MarksX) {
+                foreach (var x in marks.X) {
                     group.Children.Add(
                         new LineGeometry(
                             new Point(x, 0),
                             new Point(x, size.Height)));
                 }
-            } else {
-                this.MarksX = new double[] { };
             }
 
             count = Math.Ceiling(size.Height / this.Interval);
 
             if (count > 2) {
                 var step = size.Height / count;
-                this.MarksY = Enumerable.Range(0, Convert.ToInt32(count + 1)).Select(i => i * step).ToArray();
+                marks.Y = Enumerable.Range(0, Convert.ToInt32(count + 1)).Select(i => i * step).ToArray();
 
-                foreach (var y in this.MarksY) {
+                foreach (var y in marks.Y) {
                     group.Children.Add(
                         new LineGeometry(
                             new Point(0, y),
                             new Point(size.Width, y)));
                 }
-            } else {
-                this.MarksY = new double[] { };
             }
 
             this.mPath.Data = group;
+            this.Marks = marks;
 
             return size;
         }

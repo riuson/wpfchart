@@ -48,9 +48,9 @@ namespace Chart.Ticks {
                 switch (this.Side) {
                     case Dock.Left:
                     case Dock.Right: {
-                            availableSize = new Size(this.StrokeLength, height);
+                            width = this.StrokeLength;
 
-                            foreach (var y in grid.MarksY) {
+                            foreach (var y in grid.Marks.Y) {
                                 group.Children.Add(
                                     new LineGeometry(
                                         new Point(0, y),
@@ -60,9 +60,9 @@ namespace Chart.Ticks {
                         }
                     case Dock.Top:
                     case Dock.Bottom: {
-                            availableSize = new Size(width, this.StrokeLength);
+                            height = this.StrokeLength;
 
-                            foreach (var x in grid.MarksX) {
+                            foreach (var x in grid.Marks.X) {
                                 group.Children.Add(
                                     new LineGeometry(
                                         new Point(x, 0),
