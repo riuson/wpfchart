@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WpfAppTest"
         xmlns:chartPlotters="clr-namespace:Chart.Plotters;assembly=Chart"
         xmlns:chartGrids="clr-namespace:Chart.Grids;assembly=Chart"
-        xmlns:chartTicks="clr-namespace:Chart.Ticks;assembly=Chart"
+        xmlns:chartTicks="clr-namespace:Chart.Axes;assembly=Chart"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>

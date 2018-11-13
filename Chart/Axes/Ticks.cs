@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace Chart.Ticks {
+namespace Chart.Axes {
     public class Ticks : Panel, ITicks {
         #region Dependency properties
         public static readonly DependencyProperty MarksProperty;
