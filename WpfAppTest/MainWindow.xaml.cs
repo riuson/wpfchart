@@ -36,9 +36,7 @@ namespace WpfAppTest {
 
             this.plotter1.Series = new ISerie[] { this.mSerie1, this.mSerie2 };
 
-            this.ticksLeft.Grid = this.grid1;
             this.ticksLeft.Side = Dock.Left;
-            this.ticksBottom.Grid = this.grid1;
             this.ticksBottom.Side = Dock.Bottom;
 
             this.mToken = new CancellationTokenSource();

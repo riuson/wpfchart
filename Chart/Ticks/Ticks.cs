@@ -27,15 +27,12 @@ namespace Chart.Ticks {
             this.Children.Add(this.mPath);
 
             this.Side = Dock.Left;
-            this.Grid = null;
             this.Stroke = Brushes.Black;
             this.StrokeThickness = 1;
             this.StrokeLength = 5;
         }
 
         public Dock Side { get; set; }
-
-        public IGrid Grid { get; set; }
 
         public Brush Stroke {
             get => this.mPath.Stroke;
