@@ -32,9 +32,11 @@
                           Marks="{Binding Path=Marks, ElementName=grid1}"/>
         <chartTicks:Labels x:Name="labelsLeft"
                            Grid.Row="0" Grid.Column="0"
-                           Marks="{Binding Path=Marks, ElementName=grid1}"/>
+                           Marks="{Binding Path=Marks, ElementName=grid1}"
+                           Range="{Binding Path=Range, ElementName=plotter1}"/>
         <chartTicks:Labels x:Name="labelsBottom"
                            Grid.Row="2" Grid.Column="2"
-                           Marks="{Binding Path=Marks, ElementName=grid1}"/>
+                           Marks="{Binding Path=Marks, ElementName=grid1}"
+                           Range="{Binding Path=Range, ElementName=plotter1}"/>
     </Grid>
 </Window>

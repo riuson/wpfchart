@@ -3,15 +3,23 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Chart.Plotters;
 
 namespace Chart.Axes {
     public class Labels : Panel, ILabels {
         #region Dependency properties
         public static readonly DependencyProperty MarksProperty;
+        public static readonly DependencyProperty RangeProperty;
 
         static Labels() {
             MarksProperty = DependencyProperty.Register("Marks",
                 typeof(Marks), typeof(Labels),
+                new FrameworkPropertyMetadata(
+                    null,
+                    FrameworkPropertyMetadataOptions.AffectsMeasure));
+
+            RangeProperty = DependencyProperty.Register("Range",
+                typeof(SeriesDataRange), typeof(Labels),
                 new FrameworkPropertyMetadata(
                     null,
                     FrameworkPropertyMetadataOptions.AffectsMeasure));
@@ -35,22 +43,29 @@ namespace Chart.Axes {
             set => this.SetValue(Labels.MarksProperty, value);
         }
 
+        public SeriesDataRange Range {
+            get => this.GetValue(Labels.RangeProperty) as SeriesDataRange;
+            set => this.SetValue(Labels.RangeProperty, value);
+        }
+
         protected override Size MeasureOverride(Size availableSize) {
             var marks = this.Marks;
+            var range = this.Range;
 
             var width = double.IsPositiveInfinity(availableSize.Width) ? 20 : availableSize.Width;
             var height = double.IsPositiveInfinity(availableSize.Height) ? 10 : availableSize.Height;
 
             TextBlock[] textBlocks = null;
 
-            if (marks != null) {
+            if (marks != null && range != null) {
                 switch (this.Side) {
                     case Dock.Left:
                     case Dock.Right: {
                             textBlocks = marks.Y
                                 .Select(y => {
+                                    var value = range.MaxY - y * (range.MaxY - range.MinY);
                                     var tb = new TextBlock() {
-                                        Text = y.ToString("F3")
+                                        Text = value.ToString("F3")
                                     };
                                     tb.Measure(availableSize);
                                     tb.RenderTransform = new TranslateTransform(0, y * marks.Size.Height);
@@ -70,8 +85,9 @@ namespace Chart.Axes {
                     case Dock.Bottom: {
                             textBlocks = marks.X
                                 .Select(x => {
+                                    var value = range.MaxX - x * (range.MaxX - range.MinX);
                                     var tb = new TextBlock() {
-                                        Text = x.ToString("F3")
+                                        Text = value.ToString("F3")
                                     };
                                     tb.Measure(availableSize);
                                     tb.RenderTransform = new TranslateTransform(x * marks.Size.Width, 0);
