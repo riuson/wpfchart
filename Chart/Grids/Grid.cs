@@ -57,30 +57,31 @@ namespace Chart.Grids {
 
             var count = Math.Ceiling(size.Width / this.Interval);
             var marks = new Marks();
+            marks.Size = size;
 
             if (count > 2) {
-                var step = size.Width / count;
+                var step = 1.0d / count;
                 marks.X = Enumerable.Range(0, Convert.ToInt32(count + 1)).Select(i => i * step).ToArray();
 
                 foreach (var x in marks.X) {
                     group.Children.Add(
                         new LineGeometry(
-                            new Point(x, 0),
-                            new Point(x, size.Height)));
+                            new Point(x * marks.Size.Width, 0),
+                            new Point(x * marks.Size.Width, size.Height)));
                 }
             }
 
             count = Math.Ceiling(size.Height / this.Interval);
 
             if (count > 2) {
-                var step = size.Height / count;
+                var step = 1.0d / count;
                 marks.Y = Enumerable.Range(0, Convert.ToInt32(count + 1)).Select(i => i * step).ToArray();
 
                 foreach (var y in marks.Y) {
                     group.Children.Add(
                         new LineGeometry(
-                            new Point(0, y),
-                            new Point(size.Width, y)));
+                            new Point(0, y * marks.Size.Height),
+                            new Point(size.Width, y * marks.Size.Height)));
                 }
             }
 

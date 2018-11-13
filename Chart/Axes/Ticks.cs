@@ -65,8 +65,8 @@ namespace Chart.Axes {
                             foreach (var y in marks.Y) {
                                 group.Children.Add(
                                     new LineGeometry(
-                                        new Point(0, y),
-                                        new Point(this.StrokeLength, y)));
+                                        new Point(0, y * marks.Size.Height),
+                                        new Point(this.StrokeLength, y * marks.Size.Height)));
                             }
                             break;
                         }
@@ -77,8 +77,8 @@ namespace Chart.Axes {
                             foreach (var x in marks.X) {
                                 group.Children.Add(
                                     new LineGeometry(
-                                        new Point(x, 0),
-                                        new Point(x, this.StrokeLength)));
+                                        new Point(x * marks.Size.Width, 0),
+                                        new Point(x * marks.Size.Width, this.StrokeLength)));
                             }
 
                             break;
