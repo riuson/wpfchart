@@ -12,21 +12,29 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <chartPlotters:Plotter x:Name="plotter1"
-                               Grid.Row="0" Grid.Column="1"/>
+                               Grid.Row="0" Grid.Column="2"/>
         <chartGrids:Grid x:Name="grid1"
-                         Grid.Row="0" Grid.Column="1"/>
+                         Grid.Row="0" Grid.Column="2"/>
         <chartTicks:Ticks x:Name="ticksLeft"
-                          Grid.Row="0" Grid.Column="0"
+                          Grid.Row="0" Grid.Column="1"
                           Marks="{Binding Path=Marks, ElementName=grid1}"/>
         <chartTicks:Ticks x:Name="ticksBottom"
-                          Grid.Row="1" Grid.Column="1"
+                          Grid.Row="1" Grid.Column="2"
                           Marks="{Binding Path=Marks, ElementName=grid1}"/>
+        <chartTicks:Labels x:Name="labelsLeft"
+                           Grid.Row="0" Grid.Column="0"
+                           Marks="{Binding Path=Marks, ElementName=grid1}"/>
+        <chartTicks:Labels x:Name="labelsBottom"
+                           Grid.Row="2" Grid.Column="2"
+                           Marks="{Binding Path=Marks, ElementName=grid1}"/>
     </Grid>
 </Window>

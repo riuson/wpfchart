@@ -47,6 +47,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Axes\ILabels.cs" />
+    <Compile Include="Axes\Labels.cs" />
     <Compile Include="Grids\Grid.cs" />
     <Compile Include="Grids\IGrid.cs" />
     <Compile Include="Grids\Marks.cs" />

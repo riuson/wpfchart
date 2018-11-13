@@ -39,6 +39,9 @@ namespace WpfAppTest {
             this.ticksLeft.Side = Dock.Left;
             this.ticksBottom.Side = Dock.Bottom;
 
+            this.labelsLeft.Side = Dock.Left;
+            this.labelsBottom.Side = Dock.Bottom;
+
             this.mToken = new CancellationTokenSource();
             this.mProgress = new Progress<Tuple<double, double>>(item => {
                 this.mSerie1.Add(new PointDateTime(DateTime.Now, item.Item1));
