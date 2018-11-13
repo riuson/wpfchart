@@ -9,13 +9,25 @@ using System.Windows.Shapes;
 
 namespace Chart.Plotters {
     public class Plotter : Panel, IPlotter {
+        #region Dependency properties
+        public static readonly DependencyProperty RangeProperty;
+
+        static Plotter() {
+            RangeProperty = DependencyProperty.Register("Range",
+                typeof(SeriesDataRange), typeof(Plotter),
+                new FrameworkPropertyMetadata(
+                    null,
+                    FrameworkPropertyMetadataOptions.None));
+
+        }
+        #endregion
+
         private IEnumerable<ISerie> mSeries;
         private Dictionary<ISerie, Path> mPaths;
 
         public Plotter() {
             this.mSeries = new ISerie[] { };
             this.mPaths = new Dictionary<ISerie, Path>();
-            this.Range = new SeriesDataRange();
         }
 
         public IEnumerable<ISerie> Series {
@@ -46,7 +58,11 @@ namespace Chart.Plotters {
             }
         }
 
-        public SeriesDataRange Range { get; private set; }
+
+        public SeriesDataRange Range {
+            get => this.GetValue(Plotter.RangeProperty) as SeriesDataRange;
+            set => this.SetValue(Plotter.RangeProperty, value);
+        }
 
         protected override Size MeasureOverride(Size availableSize) {
             this.UpdateRange();
@@ -91,10 +107,12 @@ namespace Chart.Plotters {
                 }
             }
 
-            this.Range.MinX = minX ?? 0;
-            this.Range.MinY = minY ?? 0;
-            this.Range.MaxX = maxX ?? 0;
-            this.Range.MaxY = maxY ?? 0;
+            this.Range = new SeriesDataRange() {
+                MinX = minX ?? 0,
+                MinY = minY ?? 0,
+                MaxX = maxX ?? 0,
+                MaxY = maxY ?? 0
+            };
         }
     }
 }
