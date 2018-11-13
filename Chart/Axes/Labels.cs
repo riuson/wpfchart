@@ -53,6 +53,7 @@ namespace Chart.Axes {
                                         Text = y.ToString("F3")
                                     };
                                     tb.Measure(availableSize);
+                                    tb.RenderTransform = new TranslateTransform(0, y);
                                     return tb;
                                 })
                                 .ToArray();
@@ -73,6 +74,7 @@ namespace Chart.Axes {
                                         Text = x.ToString("F3")
                                     };
                                     tb.Measure(availableSize);
+                                    tb.RenderTransform = new TranslateTransform(x, 0);
                                     return tb;
                                 })
                                 .ToArray();
