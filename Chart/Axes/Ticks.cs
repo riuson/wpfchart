@@ -27,8 +27,6 @@ namespace Chart.Axes {
             this.Children.Add(this.mPath);
 
             this.Side = Dock.Left;
-            this.Stroke = Brushes.Black;
-            this.StrokeThickness = 1;
             this.StrokeLength = 5;
         }
 
