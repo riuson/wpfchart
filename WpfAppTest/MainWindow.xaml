@@ -31,19 +31,23 @@
                          Grid.Row="0" Grid.Column="2"/>
         <chartAxes:Ticks x:Name="ticksLeft"
                          Grid.Row="0" Grid.Column="1"
-                         Marks="{Binding Path=Marks, ElementName=grid1}"/>
+                         Marks="{Binding Path=Marks, ElementName=grid1}"
+                         Side="Left"/>
         <chartAxes:Ticks x:Name="ticksBottom"
                          Grid.Row="1" Grid.Column="2"
-                         Marks="{Binding Path=Marks, ElementName=grid1}"/>
+                         Marks="{Binding Path=Marks, ElementName=grid1}"
+                         Side="Bottom"/>
         <chartAxes:Labels x:Name="labelsLeft"
                           Grid.Row="0" Grid.Column="0"
                           Marks="{Binding Path=Marks, ElementName=grid1}"
                           Range="{Binding Path=Range, ElementName=plotter1}"
-                          Formatter="{StaticResource formatterY1}"/>
+                          Formatter="{StaticResource formatterY1}"
+                          Side="Left"/>
         <chartAxes:Labels x:Name="labelsBottom"
                           Grid.Row="2" Grid.Column="2"
                           Marks="{Binding Path=Marks, ElementName=grid1}"
                           Range="{Binding Path=Range, ElementName=plotter1}"
-                          Formatter="{StaticResource formatterX1}"/>
+                          Formatter="{StaticResource formatterX1}"
+                          Side="Bottom"/>
     </Grid>
 </Window>

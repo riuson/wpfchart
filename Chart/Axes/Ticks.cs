@@ -8,12 +8,19 @@ namespace Chart.Axes {
     public class Ticks : Panel, ITicks {
         #region Dependency properties
         public static readonly DependencyProperty MarksProperty;
+        public static readonly DependencyProperty SideProperty;
 
         static Ticks() {
             MarksProperty = DependencyProperty.Register("Marks",
                 typeof(Marks), typeof(Ticks),
                 new FrameworkPropertyMetadata(
                     null,
+                    FrameworkPropertyMetadataOptions.AffectsMeasure));
+
+            SideProperty = DependencyProperty.Register("Side",
+                typeof(Dock), typeof(Ticks),
+                new FrameworkPropertyMetadata(
+                    Dock.Bottom,
                     FrameworkPropertyMetadataOptions.AffectsMeasure));
         }
         #endregion
@@ -30,7 +37,10 @@ namespace Chart.Axes {
             this.StrokeLength = 5;
         }
 
-        public Dock Side { get; set; }
+        public Dock Side {
+            get => (Dock)this.GetValue(Ticks.SideProperty);
+            set => this.SetValue(Ticks.SideProperty, value);
+        }
 
         public Brush Stroke {
             get => this.mPath.Stroke;

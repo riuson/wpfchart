@@ -25,12 +25,6 @@ namespace WpfAppTest {
             this.grid1.StrokeThickness = 0.5;
             this.grid1.Interval = 50;
 
-            this.ticksLeft.Side = Dock.Left;
-            this.ticksBottom.Side = Dock.Bottom;
-
-            this.labelsLeft.Side = Dock.Left;
-            this.labelsBottom.Side = Dock.Bottom;
-
             this.mToken = new CancellationTokenSource();
             this.mProgress = new Progress<Tuple<double, double>>(item => {
                 this.mData.Serie1.Add(new PointDateTime(DateTime.Now, item.Item1));

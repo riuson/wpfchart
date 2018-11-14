@@ -14,6 +14,7 @@ namespace Chart.Axes {
         public static readonly DependencyProperty RangeProperty;
         public static readonly DependencyProperty SpacingProperty;
         public static readonly DependencyProperty FormatterProperty;
+        public static readonly DependencyProperty SideProperty;
 
         static Labels() {
             MarksProperty = DependencyProperty.Register("Marks",
@@ -39,6 +40,12 @@ namespace Chart.Axes {
                 new FrameworkPropertyMetadata(
                     null,
                     FrameworkPropertyMetadataOptions.AffectsMeasure));
+
+            SideProperty = DependencyProperty.Register("Side",
+                typeof(Dock), typeof(Labels),
+                new FrameworkPropertyMetadata(
+                    Dock.Bottom,
+                    FrameworkPropertyMetadataOptions.AffectsMeasure));
         }
         #endregion
 
@@ -51,7 +58,10 @@ namespace Chart.Axes {
             this.Formatter = new DoubleFormatter();
         }
 
-        public Dock Side { get; set; }
+        public Dock Side {
+            get => (Dock)this.GetValue(Labels.SideProperty);
+            set => this.SetValue(Labels.SideProperty, value);
+        }
 
         public Brush Foreground { get; set; }
 
