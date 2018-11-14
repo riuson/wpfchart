@@ -1,5 +1,6 @@
 ﻿using Chart.Grids;
 using Chart.Plotters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -11,6 +12,7 @@ namespace Chart.Axes {
         #region Dependency properties
         public static readonly DependencyProperty MarksProperty;
         public static readonly DependencyProperty RangeProperty;
+        public static readonly DependencyProperty SpacingProperty;
 
         static Labels() {
             MarksProperty = DependencyProperty.Register("Marks",
@@ -23,6 +25,12 @@ namespace Chart.Axes {
                 typeof(SeriesDataRange), typeof(Labels),
                 new FrameworkPropertyMetadata(
                     null,
+                    FrameworkPropertyMetadataOptions.AffectsMeasure));
+
+            SpacingProperty = DependencyProperty.Register("Spacing",
+                typeof(double), typeof(Labels),
+                new FrameworkPropertyMetadata(
+                    5d,
                     FrameworkPropertyMetadataOptions.AffectsMeasure));
         }
         #endregion
@@ -49,6 +57,11 @@ namespace Chart.Axes {
             set => this.SetValue(Labels.RangeProperty, value);
         }
 
+        public double Spacing {
+            get => Convert.ToDouble(this.GetValue(Labels.SpacingProperty));
+            set => this.SetValue(Labels.SpacingProperty, value);
+        }
+
         protected override Size MeasureOverride(Size availableSize) {
             var marks = this.Marks;
             var range = this.Range;
@@ -56,6 +69,7 @@ namespace Chart.Axes {
             var width = double.IsPositiveInfinity(availableSize.Width) ? 20 : availableSize.Width;
             var height = double.IsPositiveInfinity(availableSize.Height) ? 10 : availableSize.Height;
             var side = this.Side;
+            var spacing = this.Spacing;
 
             TextBlock[] textBlocks = null;
 
@@ -63,36 +77,82 @@ namespace Chart.Axes {
                 switch (side) {
                     case Dock.Left:
                     case Dock.Right: {
-                            textBlocks = this.GetTextBlocks(marks.Y.Length);
+                            if (marks.Y.Length > 2) {
+                                textBlocks = this.GetTextBlocks(marks.Y.Length);
 
-                            for (var i = 0; i < marks.Y.Length; i++) {
+                                var i = 0;
                                 this.SetText(textBlocks[i], side, availableSize, i, marks, range);
                                 var location = this.CalculateLocation(textBlocks[i], side, i, marks, range);
                                 textBlocks[i].RenderTransform = new TranslateTransform(location.X, location.Y);
-                            }
+                                textBlocks[i].Visibility = Visibility.Visible;
+                                var limit1 = location.Y + textBlocks[i].DesiredSize.Height + spacing;
 
-                            if (textBlocks.Length > 0) {
-                                width = textBlocks.Max(item => item.DesiredSize.Width);
-                            } else {
-                                width = 0;
+                                i = this.Marks.Y.Length - 1;
+                                this.SetText(textBlocks[i], side, availableSize, i, marks, range);
+                                location = this.CalculateLocation(textBlocks[i], side, i, marks, range);
+                                textBlocks[i].RenderTransform = new TranslateTransform(location.X, location.Y);
+                                textBlocks[i].Visibility = Visibility.Visible;
+                                var limit2 = location.Y - spacing;
+
+                                for (i = 1; i < marks.Y.Length - 1; i++) {
+                                    this.SetText(textBlocks[i], side, availableSize, i, marks, range);
+                                    location = this.CalculateLocation(textBlocks[i], side, i, marks, range);
+
+                                    if (location.Y > limit1 && location.Y + textBlocks[i].DesiredSize.Height < limit2) {
+                                        textBlocks[i].RenderTransform = new TranslateTransform(location.X, location.Y);
+                                        textBlocks[i].Visibility = Visibility.Visible;
+                                        limit1 = location.Y + textBlocks[i].DesiredSize.Height + spacing;
+                                    } else {
+                                        textBlocks[i].Visibility = Visibility.Hidden;
+                                    }
+                                }
+
+                                if (textBlocks.Length > 0) {
+                                    width = textBlocks.Where(item => item.Visibility == Visibility.Visible).Max(item => item.DesiredSize.Width);
+                                } else {
+                                    width = 0;
+                                }
                             }
 
                             break;
                         }
                     case Dock.Top:
                     case Dock.Bottom: {
-                            textBlocks = this.GetTextBlocks(marks.X.Length);
+                            if (marks.X.Length > 2) {
+                                textBlocks = this.GetTextBlocks(marks.X.Length);
 
-                            for (var i = 0; i < marks.X.Length; i++) {
+                                var i = 0;
                                 this.SetText(textBlocks[i], side, availableSize, i, marks, range);
                                 var location = this.CalculateLocation(textBlocks[i], side, i, marks, range);
                                 textBlocks[i].RenderTransform = new TranslateTransform(location.X, location.Y);
-                            }
+                                textBlocks[i].Visibility = Visibility.Visible;
+                                var limit1 = location.X + textBlocks[i].DesiredSize.Width + spacing;
 
-                            if (textBlocks.Length > 0) {
-                                height = textBlocks.Max(item => item.DesiredSize.Height);
-                            } else {
-                                height = 0;
+                                i = this.Marks.X.Length - 1;
+                                this.SetText(textBlocks[i], side, availableSize, i, marks, range);
+                                location = this.CalculateLocation(textBlocks[i], side, i, marks, range);
+                                textBlocks[i].RenderTransform = new TranslateTransform(location.X, location.Y);
+                                textBlocks[i].Visibility = Visibility.Visible;
+                                var limit2 = location.X - spacing;
+
+                                for (i = 1; i < marks.X.Length - 1; i++) {
+                                    this.SetText(textBlocks[i], side, availableSize, i, marks, range);
+                                    location = this.CalculateLocation(textBlocks[i], side, i, marks, range);
+
+                                    if (location.X > limit1 && location.X + textBlocks[i].DesiredSize.Width < limit2) {
+                                        textBlocks[i].RenderTransform = new TranslateTransform(location.X, location.Y);
+                                        textBlocks[i].Visibility = Visibility.Visible;
+                                        limit1 = location.X + textBlocks[i].DesiredSize.Width + spacing;
+                                    } else {
+                                        textBlocks[i].Visibility = Visibility.Hidden;
+                                    }
+                                }
+
+                                if (textBlocks.Length > 0) {
+                                    height = textBlocks.Where(item => item.Visibility == Visibility.Visible).Max(item => item.DesiredSize.Height);
+                                } else {
+                                    height = 0;
+                                }
                             }
 
                             break;
@@ -106,7 +166,7 @@ namespace Chart.Axes {
             this.Children.Clear();
 
             if (textBlocks != null) {
-                foreach (var textBlock in textBlocks) {
+                foreach (var textBlock in textBlocks.Where(item => item.Visibility == Visibility.Visible)) {
                     this.Children.Add(textBlock);
                 }
             }
