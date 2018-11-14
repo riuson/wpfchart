@@ -13,6 +13,7 @@ namespace Chart.Axes {
         public static readonly DependencyProperty MarksProperty;
         public static readonly DependencyProperty RangeProperty;
         public static readonly DependencyProperty SpacingProperty;
+        public static readonly DependencyProperty FormatterProperty;
 
         static Labels() {
             MarksProperty = DependencyProperty.Register("Marks",
@@ -31,6 +32,12 @@ namespace Chart.Axes {
                 typeof(double), typeof(Labels),
                 new FrameworkPropertyMetadata(
                     5d,
+                    FrameworkPropertyMetadataOptions.AffectsMeasure));
+
+            FormatterProperty = DependencyProperty.Register("Formatter",
+                typeof(ILabelFormatter), typeof(Labels),
+                new FrameworkPropertyMetadata(
+                    null,
                     FrameworkPropertyMetadataOptions.AffectsMeasure));
         }
         #endregion
@@ -63,7 +70,10 @@ namespace Chart.Axes {
             set => this.SetValue(Labels.SpacingProperty, value);
         }
 
-        public ILabelFormatter Formatter { get; set; }
+        public ILabelFormatter Formatter {
+            get => this.GetValue(Labels.FormatterProperty) as ILabelFormatter;
+            set => this.SetValue(Labels.FormatterProperty, value);
+        }
 
         protected override Size MeasureOverride(Size availableSize) {
             var marks = this.Marks;
@@ -199,13 +209,13 @@ namespace Chart.Axes {
                 case Dock.Left:
                 case Dock.Right: {
                         var value = range.MaxY - marks.Y[i] * (range.MaxY - range.MinY);
-                        textBlock.Text = this.Formatter.ToString(value);
+                        textBlock.Text = this.Formatter?.ToString(value) ?? value.ToString();
                         break;
                     }
                 case Dock.Top:
                 case Dock.Bottom: {
                         var value = range.MaxX - marks.X[i] * (range.MaxX - range.MinX);
-                        textBlock.Text = this.Formatter.ToString(value);
+                        textBlock.Text = this.Formatter?.ToString(value) ?? value.ToString();
                         break;
                     }
             }

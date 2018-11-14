@@ -43,9 +43,6 @@ namespace WpfAppTest {
             this.labelsLeft.Side = Dock.Left;
             this.labelsBottom.Side = Dock.Bottom;
 
-            this.labelsLeft.Formatter = new DoubleFormatter();
-            this.labelsBottom.Formatter = new DateTimeFormatter();
-
             this.mToken = new CancellationTokenSource();
             this.mProgress = new Progress<Tuple<double, double>>(item => {
                 this.mSerie1.Add(new PointDateTime(DateTime.Now, item.Item1));

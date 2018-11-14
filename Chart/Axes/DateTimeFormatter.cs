@@ -2,7 +2,11 @@
 
 namespace Chart.Axes {
     public class DateTimeFormatter : ILabelFormatter {
-        public DateTimeFormatter(string format = "HH:mm:ss") {
+        public DateTimeFormatter() {
+            this.Format = "HH:mm:ss";
+        }
+
+        public DateTimeFormatter(string format) {
             this.Format = format;
         }
 

@@ -1,6 +1,10 @@
 ﻿namespace Chart.Axes {
     public class DoubleFormatter : ILabelFormatter {
-        public DoubleFormatter(string format = "F3") {
+        public DoubleFormatter() {
+            this.Format = "F3";
+        }
+
+        public DoubleFormatter(string format) {
             this.Format = format;
         }
 

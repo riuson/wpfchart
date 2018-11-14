@@ -9,6 +9,10 @@
         xmlns:chartAxes="clr-namespace:Chart.Axes;assembly=Chart"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <chartAxes:DoubleFormatter x:Key="formatterY1" Format="F3"/>
+        <chartAxes:DateTimeFormatter x:Key="formatterX1" Format="HH:mm:ss.fff"/>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -33,10 +37,12 @@
         <chartAxes:Labels x:Name="labelsLeft"
                           Grid.Row="0" Grid.Column="0"
                           Marks="{Binding Path=Marks, ElementName=grid1}"
-                          Range="{Binding Path=Range, ElementName=plotter1}"/>
+                          Range="{Binding Path=Range, ElementName=plotter1}"
+                          Formatter="{StaticResource formatterY1}"/>
         <chartAxes:Labels x:Name="labelsBottom"
                           Grid.Row="2" Grid.Column="2"
                           Marks="{Binding Path=Marks, ElementName=grid1}"
-                          Range="{Binding Path=Range, ElementName=plotter1}"/>
+                          Range="{Binding Path=Range, ElementName=plotter1}"
+                          Formatter="{StaticResource formatterX1}"/>
     </Grid>
 </Window>
