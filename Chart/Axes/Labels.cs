@@ -55,20 +55,20 @@ namespace Chart.Axes {
 
             var width = double.IsPositiveInfinity(availableSize.Width) ? 20 : availableSize.Width;
             var height = double.IsPositiveInfinity(availableSize.Height) ? 10 : availableSize.Height;
+            var side = this.Side;
 
             TextBlock[] textBlocks = null;
 
             if (marks != null && range != null) {
-                switch (this.Side) {
+                switch (side) {
                     case Dock.Left:
                     case Dock.Right: {
                             textBlocks = this.GetTextBlocks(marks.Y.Length);
 
                             for (var i = 0; i < marks.Y.Length; i++) {
-                                var value = range.MaxY - marks.Y[i] * (range.MaxY - range.MinY);
-                                textBlocks[i].Text = value.ToString("F3");
-                                textBlocks[i].Measure(availableSize);
-                                textBlocks[i].RenderTransform = new TranslateTransform(0, marks.Y[i] * marks.Size.Height);
+                                this.SetText(textBlocks[i], side, availableSize, i, marks, range);
+                                var location = this.CalculateLocation(textBlocks[i], side, i, marks, range);
+                                textBlocks[i].RenderTransform = new TranslateTransform(location.X, location.Y);
                             }
 
                             if (textBlocks.Length > 0) {
@@ -84,10 +84,9 @@ namespace Chart.Axes {
                             textBlocks = this.GetTextBlocks(marks.X.Length);
 
                             for (var i = 0; i < marks.X.Length; i++) {
-                                var value = range.MaxX - marks.X[i] * (range.MaxX - range.MinX);
-                                textBlocks[i].Text = value.ToString("F3");
-                                textBlocks[i].Measure(availableSize);
-                                textBlocks[i].RenderTransform = new TranslateTransform(marks.X[i] * marks.Size.Width, 0);
+                                this.SetText(textBlocks[i], side, availableSize, i, marks, range);
+                                var location = this.CalculateLocation(textBlocks[i], side, i, marks, range);
+                                textBlocks[i].RenderTransform = new TranslateTransform(location.X, location.Y);
                             }
 
                             if (textBlocks.Length > 0) {
@@ -129,6 +128,60 @@ namespace Chart.Axes {
             }
 
             return this.mTextBlocks.Take(count).ToArray();
+        }
+
+        private void SetText(TextBlock textBlock, Dock side, Size availableSize, int i, Marks marks, SeriesDataRange range) {
+
+            switch (side) {
+                case Dock.Left:
+                case Dock.Right: {
+                        var value = range.MaxY - marks.Y[i] * (range.MaxY - range.MinY);
+                        textBlock.Text = value.ToString("F3");
+                        break;
+                    }
+                case Dock.Top:
+                case Dock.Bottom: {
+                        var value = range.MaxX - marks.X[i] * (range.MaxX - range.MinX);
+                        textBlock.Text = value.ToString("F3");
+                        break;
+                    }
+            }
+
+            textBlock.Measure(availableSize);
+        }
+
+        private Point CalculateLocation(TextBlock textBlock, Dock side, int i, Marks marks, SeriesDataRange range) {
+            var location = new Point(0, 0);
+            var size = textBlock.DesiredSize;
+
+            switch (side) {
+                case Dock.Left:
+                case Dock.Right: {
+                        location.Y = marks.Y[i] * marks.Size.Height - size.Height / 2;
+
+                        if (i == 0) {
+                            location.Y = 0;
+                        } else if (i == marks.Y.Length - 1) {
+                            location.Y = marks.Size.Height - size.Height;
+                        }
+
+                        break;
+                    }
+                case Dock.Top:
+                case Dock.Bottom: {
+                        location.X = marks.X[i] * marks.Size.Width - size.Width / 2;
+
+                        if (i == 0) {
+                            location.X = 0;
+                        } else if (i == marks.X.Length - 1) {
+                            location.X = marks.Size.Width - size.Width;
+                        }
+
+                        break;
+                    }
+            }
+
+            return location;
         }
     }
 }
