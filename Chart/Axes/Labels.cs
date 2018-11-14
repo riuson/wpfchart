@@ -41,6 +41,7 @@ namespace Chart.Axes {
             this.mTextBlocks = new List<TextBlock>();
             this.Foreground = Brushes.Black;
             this.Side = Dock.Left;
+            this.Formatter = new DoubleFormatter();
         }
 
         public Dock Side { get; set; }
@@ -61,6 +62,8 @@ namespace Chart.Axes {
             get => Convert.ToDouble(this.GetValue(Labels.SpacingProperty));
             set => this.SetValue(Labels.SpacingProperty, value);
         }
+
+        public ILabelFormatter Formatter { get; set; }
 
         protected override Size MeasureOverride(Size availableSize) {
             var marks = this.Marks;
@@ -196,13 +199,13 @@ namespace Chart.Axes {
                 case Dock.Left:
                 case Dock.Right: {
                         var value = range.MaxY - marks.Y[i] * (range.MaxY - range.MinY);
-                        textBlock.Text = value.ToString("F3");
+                        textBlock.Text = this.Formatter.ToString(value);
                         break;
                     }
                 case Dock.Top:
                 case Dock.Bottom: {
                         var value = range.MaxX - marks.X[i] * (range.MaxX - range.MinX);
-                        textBlock.Text = value.ToString("F3");
+                        textBlock.Text = this.Formatter.ToString(value);
                         break;
                     }
             }

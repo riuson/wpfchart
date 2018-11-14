@@ -47,6 +47,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Axes\DateTimeFormatter.cs" />
+    <Compile Include="Axes\DoubleFormatter.cs" />
+    <Compile Include="Axes\ILabelFormatter.cs" />
     <Compile Include="Axes\ILabels.cs" />
     <Compile Include="Axes\Labels.cs" />
     <Compile Include="Grids\Grid.cs" />
@@ -55,7 +58,7 @@
     <Compile Include="Plotters\IPlotter.cs" />
     <Compile Include="Plotters\Plotter.cs" />
     <Compile Include="Plotters\SeriesDataRange.cs" />
-    <Compile Include="Points\PointBase.cs" />
+    <Compile Include="Points\IPoint.cs" />
     <Compile Include="Points\PointDateTime.cs" />
     <Compile Include="Points\PointDouble.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

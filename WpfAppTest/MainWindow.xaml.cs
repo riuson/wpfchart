@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Chart.Axes;
 
 namespace WpfAppTest {
     /// <summary>
@@ -41,6 +42,9 @@ namespace WpfAppTest {
 
             this.labelsLeft.Side = Dock.Left;
             this.labelsBottom.Side = Dock.Bottom;
+
+            this.labelsLeft.Formatter = new DoubleFormatter();
+            this.labelsBottom.Formatter = new DateTimeFormatter();
 
             this.mToken = new CancellationTokenSource();
             this.mProgress = new Progress<Tuple<double, double>>(item => {
