@@ -1,9 +1,10 @@
 ﻿using Chart.Grids;
+using Chart.Plotters;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using Chart.Plotters;
 
 namespace Chart.Axes {
     public class Labels : Panel, ILabels {
@@ -26,10 +27,10 @@ namespace Chart.Axes {
         }
         #endregion
 
-        private TextBlock[] mTextBlocks;
+        private List<TextBlock> mTextBlocks;
 
         public Labels() {
-            this.mTextBlocks = null;
+            this.mTextBlocks = new List<TextBlock>();
             this.Foreground = Brushes.Black;
             this.Side = Dock.Left;
         }
@@ -61,17 +62,14 @@ namespace Chart.Axes {
                 switch (this.Side) {
                     case Dock.Left:
                     case Dock.Right: {
-                            textBlocks = marks.Y
-                                .Select(y => {
-                                    var value = range.MaxY - y * (range.MaxY - range.MinY);
-                                    var tb = new TextBlock() {
-                                        Text = value.ToString("F3")
-                                    };
-                                    tb.Measure(availableSize);
-                                    tb.RenderTransform = new TranslateTransform(0, y * marks.Size.Height);
-                                    return tb;
-                                })
-                                .ToArray();
+                            textBlocks = this.GetTextBlocks(marks.Y.Length);
+
+                            for (var i = 0; i < marks.Y.Length; i++) {
+                                var value = range.MaxY - marks.Y[i] * (range.MaxY - range.MinY);
+                                textBlocks[i].Text = value.ToString("F3");
+                                textBlocks[i].Measure(availableSize);
+                                textBlocks[i].RenderTransform = new TranslateTransform(0, marks.Y[i] * marks.Size.Height);
+                            }
 
                             if (textBlocks.Length > 0) {
                                 width = textBlocks.Max(item => item.DesiredSize.Width);
@@ -83,17 +81,14 @@ namespace Chart.Axes {
                         }
                     case Dock.Top:
                     case Dock.Bottom: {
-                            textBlocks = marks.X
-                                .Select(x => {
-                                    var value = range.MaxX - x * (range.MaxX - range.MinX);
-                                    var tb = new TextBlock() {
-                                        Text = value.ToString("F3")
-                                    };
-                                    tb.Measure(availableSize);
-                                    tb.RenderTransform = new TranslateTransform(x * marks.Size.Width, 0);
-                                    return tb;
-                                })
-                                .ToArray();
+                            textBlocks = this.GetTextBlocks(marks.X.Length);
+
+                            for (var i = 0; i < marks.X.Length; i++) {
+                                var value = range.MaxX - marks.X[i] * (range.MaxX - range.MinX);
+                                textBlocks[i].Text = value.ToString("F3");
+                                textBlocks[i].Measure(availableSize);
+                                textBlocks[i].RenderTransform = new TranslateTransform(marks.X[i] * marks.Size.Width, 0);
+                            }
 
                             if (textBlocks.Length > 0) {
                                 height = textBlocks.Max(item => item.DesiredSize.Height);
@@ -109,11 +104,10 @@ namespace Chart.Axes {
                 height = 0;
             }
 
-            this.mTextBlocks = textBlocks;
             this.Children.Clear();
 
-            if (this.mTextBlocks != null) {
-                foreach (var textBlock in this.mTextBlocks) {
+            if (textBlocks != null) {
+                foreach (var textBlock in textBlocks) {
                     this.Children.Add(textBlock);
                 }
             }
@@ -127,6 +121,14 @@ namespace Chart.Axes {
             }
 
             return finalSize;
+        }
+
+        private TextBlock[] GetTextBlocks(int count) {
+            if (this.mTextBlocks.Count < count) {
+                this.mTextBlocks.AddRange(Enumerable.Range(0, count - this.mTextBlocks.Count).Select(_ => new TextBlock()));
+            }
+
+            return this.mTextBlocks.Take(count).ToArray();
         }
     }
 }
