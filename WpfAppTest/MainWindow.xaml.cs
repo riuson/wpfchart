@@ -21,9 +21,6 @@ namespace WpfAppTest {
             this.InitializeComponent();
             this.mData = new ChartData();
             this.DataContext = this.mData;
-            this.grid1.Stroke = Brushes.DarkGreen;
-            this.grid1.StrokeThickness = 0.5;
-            this.grid1.Interval = 50;
 
             this.mToken = new CancellationTokenSource();
             this.mProgress = new Progress<Tuple<double, double>>(item => {

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -9,6 +10,9 @@ namespace Chart.Grids {
     public class Grid : Panel, IGrid {
         #region Dependency properties
         public static readonly DependencyProperty MarksProperty;
+        public static readonly DependencyProperty StrokeProperty;
+        public static readonly DependencyProperty StrokeThicknessProperty;
+        public static readonly DependencyProperty IntervalProperty;
 
         static Grid() {
             MarksProperty = DependencyProperty.Register("Marks",
@@ -16,6 +20,24 @@ namespace Chart.Grids {
                 new FrameworkPropertyMetadata(
                     null,
                     FrameworkPropertyMetadataOptions.None));
+
+            StrokeProperty = DependencyProperty.Register("Stroke",
+                typeof(Brush), typeof(Grid),
+                new FrameworkPropertyMetadata(
+                    Brushes.Black,
+                    FrameworkPropertyMetadataOptions.AffectsRender));
+
+            StrokeThicknessProperty = DependencyProperty.Register("StrokeThickness",
+                typeof(double), typeof(Grid),
+                new FrameworkPropertyMetadata(
+                    1d,
+                    FrameworkPropertyMetadataOptions.AffectsRender));
+
+            IntervalProperty = DependencyProperty.Register("Interval",
+                typeof(double), typeof(Grid),
+                new FrameworkPropertyMetadata(
+                    50d,
+                    FrameworkPropertyMetadataOptions.AffectsMeasure));
         }
         #endregion
 
@@ -23,25 +45,27 @@ namespace Chart.Grids {
 
         public Grid() {
             this.mPath = new Path();
-            this.Stroke = Brushes.Black;
-            this.StrokeThickness = 1;
-            this.Interval = 50;
             this.Children.Add(this.mPath);
-
             this.Marks = new Marks();
+
+            BindingOperations.SetBinding(this.mPath, Path.StrokeProperty, new Binding("Stroke") { Source = this, Mode = BindingMode.OneWay});
+            BindingOperations.SetBinding(this.mPath, Path.StrokeThicknessProperty, new Binding("StrokeThickness") { Source = this, Mode = BindingMode.OneWay });
         }
 
         public Brush Stroke {
-            get => this.mPath.Stroke;
-            set => this.mPath.Stroke = value;
+            get => this.GetValue(Grid.StrokeProperty) as Brush;
+            set => this.SetValue(Grid.StrokeProperty, value);
         }
 
         public double StrokeThickness {
-            get => this.mPath.StrokeThickness;
-            set => this.mPath.StrokeThickness = value;
+            get => Convert.ToDouble(this.GetValue(Grid.StrokeThicknessProperty));
+            set => this.SetValue(Grid.StrokeThicknessProperty, value);
         }
 
-        public double Interval { get; set; }
+        public double Interval {
+            get => Convert.ToDouble(this.GetValue(Grid.IntervalProperty));
+            set => this.SetValue(Grid.IntervalProperty, value);
+        }
 
         public Marks Marks {
             get => this.GetValue(Grid.MarksProperty) as Marks;
@@ -55,7 +79,9 @@ namespace Chart.Grids {
                 double.IsPositiveInfinity(availableSize.Width) ? 100 : availableSize.Width,
                 double.IsPositiveInfinity(availableSize.Height) ? 100 : availableSize.Height);
 
-            var count = Math.Ceiling(size.Width / this.Interval);
+            var interval = this.Interval;
+
+            var count = Math.Ceiling(size.Width / interval);
             var marks = new Marks();
             marks.Size = size;
 
@@ -71,7 +97,7 @@ namespace Chart.Grids {
                 }
             }
 
-            count = Math.Ceiling(size.Height / this.Interval);
+            count = Math.Ceiling(size.Height / interval);
 
             if (count > 2) {
                 var step = 1.0d / count;
