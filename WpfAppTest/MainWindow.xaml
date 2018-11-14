@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WpfAppTest"
         xmlns:chartPlotters="clr-namespace:Chart.Plotters;assembly=Chart"
         xmlns:chartGrids="clr-namespace:Chart.Grids;assembly=Chart"
-        xmlns:chartTicks="clr-namespace:Chart.Axes;assembly=Chart"
+        xmlns:chartAxes="clr-namespace:Chart.Axes;assembly=Chart"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
@@ -24,19 +24,19 @@
                                Grid.Row="0" Grid.Column="2"/>
         <chartGrids:Grid x:Name="grid1"
                          Grid.Row="0" Grid.Column="2"/>
-        <chartTicks:Ticks x:Name="ticksLeft"
-                          Grid.Row="0" Grid.Column="1"
-                          Marks="{Binding Path=Marks, ElementName=grid1}"/>
-        <chartTicks:Ticks x:Name="ticksBottom"
-                          Grid.Row="1" Grid.Column="2"
-                          Marks="{Binding Path=Marks, ElementName=grid1}"/>
-        <chartTicks:Labels x:Name="labelsLeft"
-                           Grid.Row="0" Grid.Column="0"
-                           Marks="{Binding Path=Marks, ElementName=grid1}"
-                           Range="{Binding Path=Range, ElementName=plotter1}"/>
-        <chartTicks:Labels x:Name="labelsBottom"
-                           Grid.Row="2" Grid.Column="2"
-                           Marks="{Binding Path=Marks, ElementName=grid1}"
-                           Range="{Binding Path=Range, ElementName=plotter1}"/>
+        <chartAxes:Ticks x:Name="ticksLeft"
+                         Grid.Row="0" Grid.Column="1"
+                         Marks="{Binding Path=Marks, ElementName=grid1}"/>
+        <chartAxes:Ticks x:Name="ticksBottom"
+                         Grid.Row="1" Grid.Column="2"
+                         Marks="{Binding Path=Marks, ElementName=grid1}"/>
+        <chartAxes:Labels x:Name="labelsLeft"
+                          Grid.Row="0" Grid.Column="0"
+                          Marks="{Binding Path=Marks, ElementName=grid1}"
+                          Range="{Binding Path=Range, ElementName=plotter1}"/>
+        <chartAxes:Labels x:Name="labelsBottom"
+                          Grid.Row="2" Grid.Column="2"
+                          Marks="{Binding Path=Marks, ElementName=grid1}"
+                          Range="{Binding Path=Range, ElementName=plotter1}"/>
     </Grid>
 </Window>
