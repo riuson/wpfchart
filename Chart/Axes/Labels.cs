@@ -95,6 +95,8 @@ namespace Chart.Axes {
             var spacing = this.Spacing;
             var formatter = this.Formatter;
 
+            this.Children.Clear();
+
             TextBlock[] textBlocks = null;
 
             if (marks != null && range != null) {
@@ -186,8 +188,6 @@ namespace Chart.Axes {
                 width = 0;
                 height = 0;
             }
-
-            this.Children.Clear();
 
             if (textBlocks != null) {
                 foreach (var textBlock in textBlocks.Where(item => item.Visibility == Visibility.Visible)) {
