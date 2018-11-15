@@ -93,6 +93,7 @@ namespace Chart.Axes {
             var height = double.IsPositiveInfinity(availableSize.Height) ? 10 : availableSize.Height;
             var side = this.Side;
             var spacing = this.Spacing;
+            var formatter = this.Formatter;
 
             TextBlock[] textBlocks = null;
 
@@ -104,21 +105,21 @@ namespace Chart.Axes {
                                 textBlocks = this.GetTextBlocks(marks.Y.Length);
 
                                 var i = 0;
-                                this.SetText(textBlocks[i], side, availableSize, i, marks, range);
+                                this.SetText(textBlocks[i], side, availableSize, formatter, i, marks, range);
                                 var location = this.CalculateLocation(textBlocks[i], side, i, marks, range);
                                 textBlocks[i].RenderTransform = new TranslateTransform(location.X, location.Y);
                                 textBlocks[i].Visibility = Visibility.Visible;
                                 var limit1 = location.Y + textBlocks[i].DesiredSize.Height + spacing;
 
                                 i = this.Marks.Y.Length - 1;
-                                this.SetText(textBlocks[i], side, availableSize, i, marks, range);
+                                this.SetText(textBlocks[i], side, availableSize, formatter, i, marks, range);
                                 location = this.CalculateLocation(textBlocks[i], side, i, marks, range);
                                 textBlocks[i].RenderTransform = new TranslateTransform(location.X, location.Y);
                                 textBlocks[i].Visibility = Visibility.Visible;
                                 var limit2 = location.Y - spacing;
 
                                 for (i = 1; i < marks.Y.Length - 1; i++) {
-                                    this.SetText(textBlocks[i], side, availableSize, i, marks, range);
+                                    this.SetText(textBlocks[i], side, availableSize, formatter, i, marks, range);
                                     location = this.CalculateLocation(textBlocks[i], side, i, marks, range);
 
                                     if (location.Y > limit1 && location.Y + textBlocks[i].DesiredSize.Height < limit2) {
@@ -145,21 +146,21 @@ namespace Chart.Axes {
                                 textBlocks = this.GetTextBlocks(marks.X.Length);
 
                                 var i = 0;
-                                this.SetText(textBlocks[i], side, availableSize, i, marks, range);
+                                this.SetText(textBlocks[i], side, availableSize, formatter, i, marks, range);
                                 var location = this.CalculateLocation(textBlocks[i], side, i, marks, range);
                                 textBlocks[i].RenderTransform = new TranslateTransform(location.X, location.Y);
                                 textBlocks[i].Visibility = Visibility.Visible;
                                 var limit1 = location.X + textBlocks[i].DesiredSize.Width + spacing;
 
                                 i = this.Marks.X.Length - 1;
-                                this.SetText(textBlocks[i], side, availableSize, i, marks, range);
+                                this.SetText(textBlocks[i], side, availableSize, formatter, i, marks, range);
                                 location = this.CalculateLocation(textBlocks[i], side, i, marks, range);
                                 textBlocks[i].RenderTransform = new TranslateTransform(location.X, location.Y);
                                 textBlocks[i].Visibility = Visibility.Visible;
                                 var limit2 = location.X - spacing;
 
                                 for (i = 1; i < marks.X.Length - 1; i++) {
-                                    this.SetText(textBlocks[i], side, availableSize, i, marks, range);
+                                    this.SetText(textBlocks[i], side, availableSize, formatter, i, marks, range);
                                     location = this.CalculateLocation(textBlocks[i], side, i, marks, range);
 
                                     if (location.X > limit1 && location.X + textBlocks[i].DesiredSize.Width < limit2) {
@@ -213,24 +214,34 @@ namespace Chart.Axes {
             return this.mTextBlocks.Take(count).ToArray();
         }
 
-        private void SetText(TextBlock textBlock, Dock side, Size availableSize, int i, Marks marks, SeriesDataRange range) {
+        private void SetText(TextBlock textBlock, Dock side, Size availableSize, ILabelFormatter formatter, int i, Marks marks, SeriesDataRange range) {
 
             switch (side) {
                 case Dock.Left:
                 case Dock.Right: {
                         var value = range.MaxY - marks.Y[i] * (range.MaxY - range.MinY);
-                        textBlock.Text = this.Formatter?.ToString(value) ?? value.ToString();
+                        var text = formatter?.ToString(value) ?? value.ToString();
+
+                        if (textBlock.Text != text) {
+                            textBlock.Text = text;
+                            textBlock.Measure(availableSize);
+                        }
+
                         break;
                     }
                 case Dock.Top:
                 case Dock.Bottom: {
                         var value = range.MaxX - marks.X[i] * (range.MaxX - range.MinX);
-                        textBlock.Text = this.Formatter?.ToString(value) ?? value.ToString();
+                        var text = formatter?.ToString(value) ?? value.ToString();
+
+                        if (textBlock.Text != text) {
+                            textBlock.Text = text;
+                            textBlock.Measure(availableSize);
+                        }
+
                         break;
                     }
             }
-
-            textBlock.Measure(availableSize);
         }
 
         private Point CalculateLocation(TextBlock textBlock, Dock side, int i, Marks marks, SeriesDataRange range) {
