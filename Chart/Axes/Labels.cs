@@ -200,7 +200,10 @@ namespace Chart.Axes {
 
         protected override Size ArrangeOverride(Size finalSize) {
             foreach (UIElement item in this.Children) {
-                item.Arrange(new Rect(finalSize));
+                var size = new Size(
+                    Math.Min(finalSize.Width, item.DesiredSize.Width),
+                    Math.Min(finalSize.Height, item.DesiredSize.Height));
+                item.Arrange(new Rect(size));
             }
 
             return finalSize;
