@@ -1,11 +1,8 @@
 ﻿using Chart.Points;
-using Chart.Series;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
 
 namespace WpfAppTest {
     /// <summary>
@@ -27,11 +24,11 @@ namespace WpfAppTest {
                 this.mData.Serie1.Add(new PointDateTime(DateTime.Now, item.Item1));
                 this.mData.Serie2.Add(new PointDateTime(DateTime.Now, item.Item2));
 
-                if (this.mData.Serie1.Count > 20) {
+                if (this.mData.Serie1.Count > 500) {
                     this.mData.Serie1.RemoveAt(0);
                 }
 
-                if (this.mData.Serie2.Count > 20) {
+                if (this.mData.Serie2.Count > 500) {
                     this.mData.Serie2.RemoveAt(0);
                 }
             });
@@ -51,8 +48,11 @@ namespace WpfAppTest {
             this.mData.Serie2.Clear();
 
             while (!cancellationToken.IsCancellationRequested) {
-                progress.Report(new Tuple<double, double>(0x800000 + rnd.NextDouble() * 0x100000, 0x850000 + rnd.NextDouble() * 0x100000));
-                cancellationToken.WaitHandle.WaitOne(500);
+                var sin = Math.Sin(DateTime.Now.TimeOfDay.TotalMilliseconds);
+                var cos = Math.Cos(DateTime.Now.TimeOfDay.TotalMilliseconds);
+
+                progress.Report(new Tuple<double, double>(sin, cos));
+                cancellationToken.WaitHandle.WaitOne(60);
             }
         }
     }
