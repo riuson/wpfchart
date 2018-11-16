@@ -1,14 +1,14 @@
-﻿using Chart.Series;
-using System;
+﻿using Chart.Plotters;
+using Chart.Series;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
-using Chart.Plotters;
 
 namespace Chart.SerieVisualizers {
     public class LineVisualizer : ISerieVisualizer {
-        public GeometryGroup GetGeometryGroup(ISerie serie, Size size, SeriesDataRange dataRange) {
-            var result = new GeometryGroup();
+        public Geometry GetGeometry(ISerie serie, Size size, SeriesDataRange dataRange) {
+            var result = new PathGeometry();
 
             if (!serie.Any()) {
                 return result;
@@ -26,23 +26,22 @@ namespace Chart.SerieVisualizers {
                 return result;
             }
 
-            var geometryPoints = serie.Select(point =>
-                new Point(
-                    this.Proportion(point.XValue, dataRange.MinX, dataRange.MaxX) * size.Width,
-                    this.Proportion(point.YValue, dataRange.MinY, dataRange.MaxY) * size.Height));
+            var figure = new PathFigure();
+            result.Figures.Add(figure);
+            var started = false;
 
-            Point? previousPoint = null;
+            foreach (var point in serie) {
+                var x = this.Proportion(point.XValue, dataRange.MinX, dataRange.MaxX) * size.Width;
+                var y = this.Proportion(point.YValue, dataRange.MinY, dataRange.MaxY) * size.Height;
 
-            foreach (var point in geometryPoints) {
-                if (!previousPoint.HasValue) {
-                    previousPoint = point;
+                if (!started) {
+                    started = true;
+                    figure.StartPoint = new Point(x, y);
                     continue;
                 }
 
-                var lineSegment = new LineGeometry(previousPoint.Value, point);
-                result.Children.Add(lineSegment);
-
-                previousPoint = point;
+                var lineSegment = new LineSegment(new Point(x, y), true);
+                figure.Segments.Add(lineSegment);
             }
 
             return result;
