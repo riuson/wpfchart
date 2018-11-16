@@ -1,10 +1,11 @@
-﻿using System.Windows;
+﻿using Chart.Plotters;
 using Chart.Series;
+using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Media;
-using Chart.Plotters;
 
 namespace Chart.SerieVisualizers {
     public interface ISerieVisualizer {
-        GeometryGroup GetGeometryGroup(ISerie serie, Size size, SeriesDataRange dataRange);
+        Geometry GetGeometry(ISerie serie, Size size, SeriesDataRange dataRange);
     }
 }

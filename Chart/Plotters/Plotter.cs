@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Shapes;
 
 namespace Chart.Plotters {
@@ -62,8 +63,9 @@ namespace Chart.Plotters {
                 double.IsPositiveInfinity(availableSize.Height) ? 100 : availableSize.Height);
 
             foreach (var serie in this.mSeries) {
-                var group = serie.Visualizer.GetGeometryGroup(serie, size, this.Range);
-                this.mPaths[serie].Data = group;
+                var path = this.mPaths[serie];
+                path.Data = null;
+                path.Data = serie.Visualizer.GetGeometry(serie, size, this.Range);
             }
 
             return size;
