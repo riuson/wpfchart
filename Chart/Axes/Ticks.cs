@@ -31,6 +31,7 @@ namespace Chart.Axes {
             this.mPath = new Path();
             this.Stroke = Brushes.Black;
             this.StrokeThickness = 1;
+
             this.Children.Add(this.mPath);
 
             this.Side = Dock.Left;
@@ -60,7 +61,7 @@ namespace Chart.Axes {
         }
 
         protected override Size MeasureOverride(Size availableSize) {
-            var group = new GeometryGroup();
+            var geometry = new PathGeometry();
             var marks = this.Marks;
 
             var width = double.IsPositiveInfinity(availableSize.Width) ? this.StrokeLength : availableSize.Width;
@@ -72,23 +73,26 @@ namespace Chart.Axes {
                     case Dock.Right: {
                             width = this.StrokeLength;
 
-                            foreach (var y in marks.Y) {
-                                group.Children.Add(
-                                    new LineGeometry(
-                                        new Point(0, y * marks.Size.Height),
-                                        new Point(this.StrokeLength, y * marks.Size.Height)));
+                            for (var i = 0; i < marks.Y.Length; i++) {
+                                var figure = new PathFigure {
+                                    StartPoint = new Point(0, marks.Y[i] * marks.Size.Height)
+                                };
+                                figure.Segments.Add(new LineSegment(new Point(this.StrokeLength, marks.Y[i] * marks.Size.Height), true));
+                                geometry.Figures.Add(figure);
                             }
+
                             break;
                         }
                     case Dock.Top:
                     case Dock.Bottom: {
                             height = this.StrokeLength;
 
-                            foreach (var x in marks.X) {
-                                group.Children.Add(
-                                    new LineGeometry(
-                                        new Point(x * marks.Size.Width, 0),
-                                        new Point(x * marks.Size.Width, this.StrokeLength)));
+                            for (var i = 0; i < marks.X.Length; i++) {
+                                var figure = new PathFigure {
+                                    StartPoint = new Point(marks.X[i] * marks.Size.Width, 0)
+                                };
+                                figure.Segments.Add(new LineSegment(new Point(marks.X[i] * marks.Size.Width, this.StrokeLength), true));
+                                geometry.Figures.Add(figure);
                             }
 
                             break;
@@ -99,7 +103,7 @@ namespace Chart.Axes {
                 height = 0;
             }
 
-            this.mPath.Data = group;
+            this.mPath.Data = geometry;
 
             return new Size(width, height);
         }
