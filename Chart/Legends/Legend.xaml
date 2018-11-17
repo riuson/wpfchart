@@ -7,15 +7,18 @@
              mc:Ignorable="d" 
              d:DesignHeight="200" d:DesignWidth="200">
     <UserControl.Resources>
+        <local:MultiplyConverter x:Key="multiplyConverter"/>
         <DataTemplate x:Key="legendItemTemplate">
             <StackPanel Orientation="Horizontal">
                 <Line Stroke="{Binding Path=Stroke}"
                       StrokeThickness="{Binding Path=StrokeThickness}"
-                      X1="0" Y1="0"
-                      X2="20" Y2="20"/>
-                <TextBlock
-                    Text="{Binding Path=Title}"
-                    FontWeight="Bold"
+                      X1="0" Y1="{Binding Path=StrokeThickness, Converter={StaticResource multiplyConverter}, ConverterParameter=0.5}"
+                      X2="20" Y2="{Binding Path=StrokeThickness, Converter={StaticResource multiplyConverter}, ConverterParameter=0.5}"
+                      Width="20" Height="{Binding Path=StrokeThickness}"
+                      Margin="0,0,5,0"/>
+                <TextBlock x:Name="TitleBlock"
+                           Text="{Binding Path=Title}"
+                           FontWeight="Bold"
                 />
             </StackPanel>
         </DataTemplate>

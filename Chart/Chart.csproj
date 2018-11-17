@@ -58,6 +58,7 @@
     <Compile Include="Legends\Legend.xaml.cs">
       <DependentUpon>Legend.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Legends\MultiplyConverter.cs" />
     <Compile Include="Plotters\IPlotter.cs" />
     <Compile Include="Plotters\Plotter.cs" />
     <Compile Include="Plotters\SeriesDataRange.cs" />

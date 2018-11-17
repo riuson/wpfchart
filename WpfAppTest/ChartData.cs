@@ -18,7 +18,7 @@ namespace WpfAppTest {
             };
             this.Serie2 = new Serie() {
                 Stroke = Brushes.Red,
-                StrokeThickness = 2,
+                StrokeThickness = 3,
                 Title = "Serie 2"
             };
 
