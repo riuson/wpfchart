@@ -48,8 +48,8 @@ namespace WpfAppTest {
             this.mData.Serie2.Clear();
 
             while (!cancellationToken.IsCancellationRequested) {
-                var sin = Math.Sin(DateTime.Now.TimeOfDay.TotalMilliseconds);
-                var cos = Math.Cos(DateTime.Now.TimeOfDay.TotalMilliseconds);
+                var sin = Math.Sin(DateTime.Now.TimeOfDay.TotalMilliseconds / 1000);
+                var cos = Math.Cos(DateTime.Now.TimeOfDay.TotalMilliseconds / 500);
 
                 progress.Report(new Tuple<double, double>(sin, cos));
                 cancellationToken.WaitHandle.WaitOne(60);
