@@ -1,8 +1,6 @@
-﻿using Chart.Series;
-using System.Collections.Generic;
-using System.Windows;
+﻿using System.Collections.Generic;
 
-namespace Chart.Plotters {
+namespace Chart {
     public interface IPlotter {
         IEnumerable<ISerie> Series { get; set; }
         SeriesDataRange Range { get; }

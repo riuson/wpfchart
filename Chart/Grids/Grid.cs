@@ -6,7 +6,7 @@ using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace Chart.Grids {
+namespace Chart {
     public class Grid : Panel, IGrid {
         #region Dependency properties
         public static readonly DependencyProperty MarksProperty;
@@ -48,7 +48,7 @@ namespace Chart.Grids {
             this.Children.Add(this.mPath);
             this.Marks = new Marks();
 
-            BindingOperations.SetBinding(this.mPath, Path.StrokeProperty, new Binding("Stroke") { Source = this, Mode = BindingMode.OneWay});
+            BindingOperations.SetBinding(this.mPath, Path.StrokeProperty, new Binding("Stroke") { Source = this, Mode = BindingMode.OneWay });
             BindingOperations.SetBinding(this.mPath, Path.StrokeThicknessProperty, new Binding("StrokeThickness") { Source = this, Mode = BindingMode.OneWay });
         }
 

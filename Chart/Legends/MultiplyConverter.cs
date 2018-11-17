@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace Chart.Legends {
+namespace Chart {
     public class MultiplyConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) {
             var v = System.Convert.ToDouble(value);

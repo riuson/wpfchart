@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media;
 
-namespace Chart.Grids {
+namespace Chart {
     public interface IGrid {
         Brush Stroke { get; }
         double StrokeThickness { get; }

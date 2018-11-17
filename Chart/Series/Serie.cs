@@ -1,9 +1,7 @@
-﻿using Chart.Points;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Media;
-using Chart.SerieVisualizers;
 
-namespace Chart.Series {
+namespace Chart {
     public class Serie : ObservableCollection<IPoint>, ISerie {
         public string Title { get; set; }
         public Brush Stroke { get; set; }

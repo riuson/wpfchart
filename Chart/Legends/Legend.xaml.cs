@@ -1,9 +1,8 @@
-﻿using Chart.Series;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Chart.Legends {
+namespace Chart {
     /// <summary>
     /// Логика взаимодействия для Legend.xaml
     /// </summary>

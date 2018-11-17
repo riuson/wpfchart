@@ -1,10 +1,8 @@
-﻿using Chart.Plotters;
-using Chart.Series;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 
-namespace Chart.SerieVisualizers {
+namespace Chart {
     public class LineVisualizer : ISerieVisualizer {
         public void Draw(ISerie serie, DrawingVisual visual, Size size, SeriesDataRange dataRange) {
             using (var dc = visual.RenderOpen()) {

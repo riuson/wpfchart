@@ -1,13 +1,11 @@
-﻿using Chart.Grids;
-using Chart.Plotters;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace Chart.Axes {
+namespace Chart {
     public class Labels : Panel, ILabels {
         #region Dependency properties
         public static readonly DependencyProperty MarksProperty;

@@ -1,10 +1,9 @@
-﻿using Chart.Grids;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace Chart.Axes {
+namespace Chart {
     public class Ticks : Panel, ITicks {
         #region Dependency properties
         public static readonly DependencyProperty MarksProperty;

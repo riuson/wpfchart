@@ -1,4 +1,4 @@
-﻿namespace Chart.Plotters {
+﻿namespace Chart {
     public class SeriesDataRange {
         public SeriesDataRange() {
             this.MinX = 0;

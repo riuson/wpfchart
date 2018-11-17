@@ -1,9 +1,7 @@
-﻿using Chart.Points;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows.Media;
-using Chart.SerieVisualizers;
 
-namespace Chart.Series {
+namespace Chart {
     public interface ISerie : IEnumerable<IPoint> {
         string Title { get; }
         Brush Stroke { get; }

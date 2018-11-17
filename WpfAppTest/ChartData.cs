@@ -1,6 +1,6 @@
-﻿using Chart.Series;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows.Media;
+using Chart;
 
 namespace WpfAppTest {
     internal class ChartData {

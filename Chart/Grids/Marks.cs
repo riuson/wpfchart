@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Chart.Grids {
+namespace Chart {
     public class Marks {
         public Marks() {
             this.X = new double[] { };

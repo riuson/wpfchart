@@ -1,4 +1,4 @@
-﻿namespace Chart.Axes {
+﻿namespace Chart {
     public class DoubleFormatter : ILabelFormatter {
         public DoubleFormatter() {
             this.Format = "F3";

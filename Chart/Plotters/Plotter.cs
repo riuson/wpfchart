@@ -1,14 +1,12 @@
-﻿using Chart.Series;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Shapes;
 
-namespace Chart.Plotters {
+namespace Chart {
     public class Plotter : Panel, IPlotter {
         #region Dependency properties
         public static readonly DependencyProperty RangeProperty;

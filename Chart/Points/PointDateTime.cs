@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Chart.Points {
+namespace Chart {
     public class PointDateTime : IPoint {
         double IPoint.XValue => this.X.Ticks;
 

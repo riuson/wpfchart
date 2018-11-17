@@ -1,6 +1,4 @@
-﻿using Chart.Points;
-
-namespace Chart.Axes {
+﻿namespace Chart {
     public interface ILabelFormatter {
         string ToString(double value);
     }

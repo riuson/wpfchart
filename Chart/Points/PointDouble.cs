@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Chart.Points {
+﻿namespace Chart {
     public class PointDouble : IPoint {
         double IPoint.XValue => this.X;
 

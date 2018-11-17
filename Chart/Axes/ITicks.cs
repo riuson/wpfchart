@@ -1,8 +1,7 @@
-﻿using Chart.Grids;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace Chart.Axes {
+namespace Chart {
     public interface ITicks {
         Dock Side { get; set; }
         Brush Stroke { get; set; }

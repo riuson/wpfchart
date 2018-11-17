@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Chart.Axes {
+namespace Chart {
     public class DateTimeFormatter : ILabelFormatter {
         public DateTimeFormatter() {
             this.Format = "HH:mm:ss";
