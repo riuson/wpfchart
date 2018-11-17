@@ -37,11 +37,11 @@ namespace Chart.Plotters {
         #endregion
 
         private IEnumerable<ISerie> mSeries;
-        private Dictionary<ISerie, Path> mPaths;
+        private Dictionary<ISerie, DrawingVisual> mVisuals;
 
         public Plotter() {
             this.mSeries = new ISerie[] { };
-            this.mPaths = new Dictionary<ISerie, Path>();
+            this.mVisuals = new Dictionary<ISerie, DrawingVisual>();
         }
 
         public IEnumerable<ISerie> Series {
@@ -63,9 +63,8 @@ namespace Chart.Plotters {
                 double.IsPositiveInfinity(availableSize.Height) ? 100 : availableSize.Height);
 
             foreach (var serie in this.mSeries) {
-                var path = this.mPaths[serie];
-                path.Data = null;
-                path.Data = serie.Visualizer.GetGeometry(serie, size, this.Range);
+                var visual = this.mVisuals[serie];
+                serie.Visualizer.Draw(serie, visual, size, this.Range);
             }
 
             return size;
@@ -78,6 +77,12 @@ namespace Chart.Plotters {
 
             return finalSize;
         }
+
+        protected override Visual GetVisualChild(int index) {
+            return this.mVisuals.Values.ElementAt(index);
+        }
+
+        protected override int VisualChildrenCount => this.mVisuals?.Count ?? 0;
 
         private void OnSerieCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
             this.InvalidateMeasure();
@@ -108,31 +113,30 @@ namespace Chart.Plotters {
             };
         }
 
-        private void AssignSeries(ISerie[] series) {
-            foreach (var pair in this.mPaths) {
-                this.Children.Remove(pair.Value);
-            }
+        private void AssignSeries(IEnumerable<ISerie> series) {
+            foreach (var pair in this.mVisuals) {
+                base.RemoveVisualChild(pair.Value);
+                base.RemoveLogicalChild(pair.Value);
 
-            if (this.mSeries != null) {
-                foreach (var serie in this.mSeries.OfType<INotifyCollectionChanged>()) {
-                    serie.CollectionChanged -= this.OnSerieCollectionChanged;
+                if (pair.Key is INotifyCollectionChanged notifyable) {
+                    notifyable.CollectionChanged -= this.OnSerieCollectionChanged;
                 }
             }
+
+            this.mVisuals.Clear();
 
             this.mSeries = series;
 
             if (this.mSeries != null) {
-                foreach (var serie in this.mSeries.OfType<INotifyCollectionChanged>()) {
-                    serie.CollectionChanged += this.OnSerieCollectionChanged;
-                }
-
                 foreach (var serie in this.mSeries) {
-                    var path = new Path() {
-                        StrokeThickness = serie.StrokeThickness,
-                        Stroke = serie.Stroke
-                    };
-                    this.mPaths.Add(serie, path);
-                    this.Children.Add(path);
+                    if (serie is INotifyCollectionChanged notifyable) {
+                        notifyable.CollectionChanged += this.OnSerieCollectionChanged;
+                    }
+
+                    var visual = new DrawingVisual();
+                    base.AddVisualChild(visual);
+                    base.AddLogicalChild(visual);
+                    this.mVisuals.Add(serie, visual);
                 }
             }
         }
