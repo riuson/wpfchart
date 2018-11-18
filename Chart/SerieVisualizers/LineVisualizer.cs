@@ -28,7 +28,7 @@ namespace Chart {
                 foreach (var point in serie) {
                     var next = new Point(
                         this.Proportion(point.XValue, dataRange.MinX, dataRange.MaxX) * size.Width,
-                        this.Proportion(point.YValue, dataRange.MinY, dataRange.MaxY) * size.Height);
+                        size.Height - this.Proportion(point.YValue, dataRange.MinY, dataRange.MaxY) * size.Height);
 
                     if (!previous.HasValue) {
                         previous = next;

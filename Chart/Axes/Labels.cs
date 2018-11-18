@@ -232,7 +232,7 @@ namespace Chart {
                     }
                 case Dock.Top:
                 case Dock.Bottom: {
-                        var value = range.MaxX - marks.X[i] * (range.MaxX - range.MinX);
+                        var value = range.MinX + marks.X[i] * (range.MaxX - range.MinX);
                         var text = formatter?.ToString(value) ?? value.ToString();
 
                         if (textBlock.Text != text) {
