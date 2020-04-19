@@ -1,8 +1,10 @@
-﻿using System.Linq;
+﻿using Chart.Plotters;
+using Chart.Series;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 
-namespace Chart {
+namespace Chart.SerieVisualizers {
     public class LineVisualizer : ISerieVisualizer {
         public void Draw(ISerie serie, DrawingVisual visual, Size size, SeriesDataRange dataRange) {
             using (var dc = visual.RenderOpen()) {
@@ -10,7 +12,7 @@ namespace Chart {
                     return;
                 }
 
-                var count = 0;
+                int count = 0;
 
                 foreach (var _ in serie) {
                     if (++count > 1) {
@@ -38,7 +40,6 @@ namespace Chart {
                     dc.DrawLine(pen, previous.Value, next);
                     previous = next;
                 }
-
             }
         }
 

@@ -1,4 +1,4 @@
-﻿namespace Chart {
+﻿namespace Chart.Axes {
     public class DoubleFormatter : ILabelFormatter {
         public DoubleFormatter() {
             this.Format = "F3";
@@ -8,8 +8,8 @@
             this.Format = format;
         }
 
-        public string ToString(double value) => value.ToString(this.Format);
-
         public string Format { get; set; }
+
+        public string ToString(double value) => value.ToString(this.Format);
     }
 }

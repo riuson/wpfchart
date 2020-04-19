@@ -1,11 +1,7 @@
 ﻿using System;
 
-namespace Chart {
+namespace Chart.Points {
     public class PointDateTime : IPoint {
-        double IPoint.XValue => this.X.Ticks;
-
-        double IPoint.YValue => this.Y;
-
         public PointDateTime() {
             this.X = DateTime.Now;
             this.Y = 0;
@@ -18,5 +14,8 @@ namespace Chart {
 
         public DateTime X { get; set; }
         public double Y { get; set; }
+        double IPoint.XValue => this.X.Ticks;
+
+        double IPoint.YValue => this.Y;
     }
 }

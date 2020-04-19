@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Chart.Series;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -6,51 +7,27 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace Chart {
+namespace Chart.Plotters {
     public class Plotter : Panel, IPlotter {
-        #region Dependency properties
-        public static readonly DependencyProperty RangeProperty;
-        public static readonly DependencyProperty SeriesProperty;
-
-        static Plotter() {
-            RangeProperty = DependencyProperty.Register("Range",
-                typeof(SeriesDataRange), typeof(Plotter),
-                new FrameworkPropertyMetadata(
-                    null,
-                    FrameworkPropertyMetadataOptions.None));
-
-            SeriesProperty = DependencyProperty.Register("Series",
-                typeof(IEnumerable<ISerie>), typeof(Plotter),
-                new FrameworkPropertyMetadata(
-                    null,
-                    FrameworkPropertyMetadataOptions.AffectsMeasure,
-                    new PropertyChangedCallback(OnSeriesChanged)));
-        }
-
-        private static void OnSeriesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
-            var plotter = d as Plotter;
-            plotter?.AssignSeries(e.NewValue as ISerie[]);
-        }
-
-        #endregion
-
+        private readonly Dictionary<ISerie, DrawingVisual> mVisuals;
         private IEnumerable<ISerie> mSeries;
-        private Dictionary<ISerie, DrawingVisual> mVisuals;
 
         public Plotter() {
             this.mSeries = new ISerie[] { };
             this.mVisuals = new Dictionary<ISerie, DrawingVisual>();
         }
 
+        protected override int VisualChildrenCount => this.mVisuals?.Count ?? 0;
+
         public IEnumerable<ISerie> Series {
-            get => this.GetValue(Plotter.SeriesProperty) as IEnumerable<ISerie>;
-            set => this.SetValue(Plotter.SeriesProperty, value);
+            get => this.GetValue(SeriesProperty) as IEnumerable<ISerie>;
+            set => this.SetValue(SeriesProperty, value);
         }
 
 
         public SeriesDataRange Range {
-            get => this.GetValue(Plotter.RangeProperty) as SeriesDataRange;
-            set => this.SetValue(Plotter.RangeProperty, value);
+            get => this.GetValue(RangeProperty) as SeriesDataRange;
+            set => this.SetValue(RangeProperty, value);
         }
 
         protected override Size MeasureOverride(Size availableSize) {
@@ -76,15 +53,10 @@ namespace Chart {
             return finalSize;
         }
 
-        protected override Visual GetVisualChild(int index) {
-            return this.mVisuals.Values.ElementAt(index);
-        }
+        protected override Visual GetVisualChild(int index) => this.mVisuals.Values.ElementAt(index);
 
-        protected override int VisualChildrenCount => this.mVisuals?.Count ?? 0;
-
-        private void OnSerieCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
+        private void OnSerieCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) =>
             this.InvalidateMeasure();
-        }
 
         private void UpdateRange() {
             double? minX = null;
@@ -103,18 +75,13 @@ namespace Chart {
                 }
             }
 
-            this.Range = new SeriesDataRange() {
-                MinX = minX ?? 0,
-                MinY = minY ?? 0,
-                MaxX = maxX ?? 0,
-                MaxY = maxY ?? 0
-            };
+            this.Range = new SeriesDataRange { MinX = minX ?? 0, MinY = minY ?? 0, MaxX = maxX ?? 0, MaxY = maxY ?? 0 };
         }
 
         private void AssignSeries(IEnumerable<ISerie> series) {
             foreach (var pair in this.mVisuals) {
-                base.RemoveVisualChild(pair.Value);
-                base.RemoveLogicalChild(pair.Value);
+                this.RemoveVisualChild(pair.Value);
+                this.RemoveLogicalChild(pair.Value);
 
                 if (pair.Key is INotifyCollectionChanged notifyable) {
                     notifyable.CollectionChanged -= this.OnSerieCollectionChanged;
@@ -132,11 +99,38 @@ namespace Chart {
                     }
 
                     var visual = new DrawingVisual();
-                    base.AddVisualChild(visual);
-                    base.AddLogicalChild(visual);
+                    this.AddVisualChild(visual);
+                    this.AddLogicalChild(visual);
                     this.mVisuals.Add(serie, visual);
                 }
             }
         }
+
+        #region Dependency properties
+
+        public static readonly DependencyProperty RangeProperty;
+        public static readonly DependencyProperty SeriesProperty;
+
+        static Plotter() {
+            RangeProperty = DependencyProperty.Register("Range",
+                typeof(SeriesDataRange), typeof(Plotter),
+                new FrameworkPropertyMetadata(
+                    null,
+                    FrameworkPropertyMetadataOptions.None));
+
+            SeriesProperty = DependencyProperty.Register("Series",
+                typeof(IEnumerable<ISerie>), typeof(Plotter),
+                new FrameworkPropertyMetadata(
+                    null,
+                    FrameworkPropertyMetadataOptions.AffectsMeasure,
+                    OnSeriesChanged));
+        }
+
+        private static void OnSeriesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
+            var plotter = d as Plotter;
+            plotter?.AssignSeries(e.NewValue as ISerie[]);
+        }
+
+        #endregion
     }
 }

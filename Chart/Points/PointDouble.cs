@@ -1,9 +1,5 @@
-﻿namespace Chart {
+﻿namespace Chart.Points {
     public class PointDouble : IPoint {
-        double IPoint.XValue => this.X;
-
-        double IPoint.YValue => this.Y;
-
         public PointDouble() {
             this.X = 0;
             this.Y = 0;
@@ -16,5 +12,8 @@
 
         public double X { get; set; }
         public double Y { get; set; }
+        double IPoint.XValue => this.X;
+
+        double IPoint.YValue => this.Y;
     }
 }
