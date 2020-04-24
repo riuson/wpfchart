@@ -2,7 +2,7 @@
     <PropertyGroup>
         <TargetFrameworks>net461;net472;net48;netcoreapp3.1</TargetFrameworks>
         <AssemblyTitle>Chart</AssemblyTitle>
-        <Company>riuson</Company>
+        <Company></Company>
         <Product>Chart</Product>
         <Description>Simple chart for WPF</Description>
         <Copyright>Copyright © 2018</Copyright>
@@ -20,9 +20,19 @@
     </PropertyGroup>
     <PropertyGroup>
         <AssemblyOriginatorKeyFile>chart-sn.snk</AssemblyOriginatorKeyFile>
+        <Authors>riuson</Authors>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <PackageId>rsn.chart</PackageId>
+        <PackageProjectUrl>https://github.com/riuson/wpfchart</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/riuson/wpfchart</RepositoryUrl>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
 
     <ItemGroup>
+        <None Include="..\LICENSE">
+          <Pack>True</Pack>
+          <PackagePath></PackagePath>
+        </None>
         <None Include="chart-sn.snk" />
     </ItemGroup>
 </Project>
