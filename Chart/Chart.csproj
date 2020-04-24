@@ -1,92 +1,28 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{508C19D1-D538-491C-B155-DE861106DBF2}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Chart</RootNamespace>
-    <AssemblyName>Chart</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>chart-sn.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Axes\DateTimeFormatter.cs" />
-    <Compile Include="Axes\DoubleFormatter.cs" />
-    <Compile Include="Axes\ILabelFormatter.cs" />
-    <Compile Include="Axes\ILabels.cs" />
-    <Compile Include="Axes\Labels.cs" />
-    <Compile Include="Grids\Grid.cs" />
-    <Compile Include="Grids\IGrid.cs" />
-    <Compile Include="Grids\Marks.cs" />
-    <Compile Include="Legends\Legend.xaml.cs">
-      <DependentUpon>Legend.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Legends\MultiplyConverter.cs" />
-    <Compile Include="Plotters\IPlotter.cs" />
-    <Compile Include="Plotters\Plotter.cs" />
-    <Compile Include="Plotters\SeriesDataRange.cs" />
-    <Compile Include="Points\IPoint.cs" />
-    <Compile Include="Points\PointDateTime.cs" />
-    <Compile Include="Points\PointDouble.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Series\ISerie.cs" />
-    <Compile Include="Series\Serie.cs" />
-    <Compile Include="SerieVisualizers\ISerieVisualizer.cs" />
-    <Compile Include="SerieVisualizers\LineVisualizer.cs" />
-    <Compile Include="Axes\ITicks.cs" />
-    <Compile Include="Axes\Ticks.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="Legends\Legend.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="chart-sn.snk" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+    <PropertyGroup>
+        <TargetFrameworks>net461;net472;net48;netcoreapp3.1</TargetFrameworks>
+        <AssemblyTitle>Chart</AssemblyTitle>
+        <Company>riuson</Company>
+        <Product>Chart</Product>
+        <Description>Simple chart for WPF</Description>
+        <Copyright>Copyright © 2018</Copyright>
+        <OutputPath>bin\$(Configuration)\</OutputPath>
+        <UseWPF>true</UseWPF>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <DebugType>full</DebugType>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <DebugType>pdbonly</DebugType>
+    </PropertyGroup>
+    <PropertyGroup>
+        <SignAssembly>true</SignAssembly>
+    </PropertyGroup>
+    <PropertyGroup>
+        <AssemblyOriginatorKeyFile>chart-sn.snk</AssemblyOriginatorKeyFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="chart-sn.snk" />
+    </ItemGroup>
 </Project>

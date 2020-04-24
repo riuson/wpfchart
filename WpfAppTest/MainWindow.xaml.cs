@@ -1,18 +1,19 @@
-﻿using System;
+﻿using Chart.Points;
+using System;
+using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using Chart;
 
 namespace WpfAppTest {
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window {
+        private readonly ChartData mData;
+        private readonly IProgress<Tuple<double, double>> mProgress;
         private readonly Task mTask;
         private readonly CancellationTokenSource mToken;
-        private readonly IProgress<Tuple<double, double>> mProgress;
-        private readonly ChartData mData;
 
         public MainWindow() {
             this.InitializeComponent();
@@ -32,12 +33,13 @@ namespace WpfAppTest {
                     this.mData.Serie2.RemoveAt(0);
                 }
             });
-            this.mTask = Task.Factory.StartNew(o => this.Method((CancellationToken)o, this.mProgress), this.mToken.Token, this.mToken.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
+            this.mTask = Task.Factory.StartNew(o => this.Method((CancellationToken)o, this.mProgress),
+                this.mToken.Token, this.mToken.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
 
             this.Closing += this.MainWindow_Closing;
         }
 
-        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
+        private void MainWindow_Closing(object sender, CancelEventArgs e) {
             this.mToken.Cancel();
             this.mTask.Wait();
         }
@@ -48,8 +50,8 @@ namespace WpfAppTest {
             this.mData.Serie2.Clear();
 
             while (!cancellationToken.IsCancellationRequested) {
-                var sin = Math.Sin(DateTime.Now.TimeOfDay.TotalMilliseconds / 1000);
-                var cos = Math.Cos(DateTime.Now.TimeOfDay.TotalMilliseconds / 500);
+                double sin = Math.Sin(DateTime.Now.TimeOfDay.TotalMilliseconds / 1000);
+                double cos = Math.Cos(DateTime.Now.TimeOfDay.TotalMilliseconds / 500);
 
                 progress.Report(new Tuple<double, double>(sin, cos));
                 cancellationToken.WaitHandle.WaitOne(60);

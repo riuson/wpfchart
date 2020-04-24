@@ -3,57 +3,58 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfAppTest"
-        xmlns:chart="clr-namespace:Chart;assembly=Chart"
+        xmlns:axes="clr-namespace:Chart.Axes;assembly=Chart"
+        xmlns:plotters="clr-namespace:Chart.Plotters;assembly=Chart"
+        xmlns:grids="clr-namespace:Chart.Grids;assembly=Chart"
+        xmlns:legends="clr-namespace:Chart.Legends;assembly=Chart"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Window.Resources>
-        <chart:DoubleFormatter x:Key="formatterY1" Format="F3"/>
-        <chart:DateTimeFormatter x:Key="formatterX1" Format="HH:mm:ss.fff"/>
+        <axes:DoubleFormatter x:Key="formatterY1" Format="F3" />
+        <axes:DateTimeFormatter x:Key="formatterX1" Format="HH:mm:ss.fff" />
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <chart:Plotter x:Name="plotter1"
-                       Grid.Row="0" Grid.Column="2"
-                       Series="{Binding Path=DataContext.Series, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
-        <chart:Grid x:Name="grid1"
+        <plotters:Plotter x:Name="plotter1"
+                          Grid.Row="0" Grid.Column="2"
+                          Series="{Binding Path=DataContext.Series, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
+        <grids:Grid x:Name="grid1"
                     Grid.Row="0" Grid.Column="2"
                     Stroke="DarkGreen"
                     StrokeThickness="0.5"
-                    Interval="50"/>
-        <chart:Ticks x:Name="ticksLeft"
-                     Grid.Row="0" Grid.Column="1"
+                    Interval="50" />
+        <axes:Ticks x:Name="ticksLeft"
+                    Grid.Row="0" Grid.Column="1"
+                    Marks="{Binding Path=Marks, ElementName=grid1}"
+                    Side="Left" />
+        <axes:Ticks x:Name="ticksBottom"
+                    Grid.Row="1" Grid.Column="2"
+                    Marks="{Binding Path=Marks, ElementName=grid1}"
+                    Side="Bottom" />
+        <axes:Labels x:Name="labelsLeft"
+                     Grid.Row="0" Grid.Column="0"
                      Marks="{Binding Path=Marks, ElementName=grid1}"
-                     Side="Left"/>
-        <chart:Ticks x:Name="ticksBottom"
-                     Grid.Row="1" Grid.Column="2"
+                     Range="{Binding Path=Range, ElementName=plotter1}"
+                     Formatter="{StaticResource formatterY1}"
+                     Side="Left" />
+        <axes:Labels x:Name="labelsBottom"
+                     Grid.Row="2" Grid.Column="2"
                      Marks="{Binding Path=Marks, ElementName=grid1}"
-                     Side="Bottom"/>
-        <chart:Labels x:Name="labelsLeft"
-                      Grid.Row="0" Grid.Column="0"
-                      Marks="{Binding Path=Marks, ElementName=grid1}"
-                      Range="{Binding Path=Range, ElementName=plotter1}"
-                      Formatter="{StaticResource formatterY1}"
-                      Side="Left"/>
-        <chart:Labels x:Name="labelsBottom"
-                      Grid.Row="2" Grid.Column="2"
-                      Marks="{Binding Path=Marks, ElementName=grid1}"
-                      Range="{Binding Path=Range, ElementName=plotter1}"
-                      Formatter="{StaticResource formatterX1}"
-                      Side="Bottom"/>
-        <chart:Legend x:Name="legend"
-                      Grid.Row="0" Grid.Column="3"
-                      Series="{Binding Path=DataContext.Series, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
-            />
+                     Range="{Binding Path=Range, ElementName=plotter1}"
+                     Formatter="{StaticResource formatterX1}"
+                     Side="Bottom" />
+        <legends:Legend x:Name="legend"
+                        Grid.Row="0" Grid.Column="3"
+                        Series="{Binding Path=DataContext.Series, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
     </Grid>
 </Window>
