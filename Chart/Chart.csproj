@@ -9,15 +9,18 @@
         <OutputPath>bin\$(Configuration)\</OutputPath>
         <UseWPF>true</UseWPF>
     </PropertyGroup>
+
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <DebugType>full</DebugType>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
         <DebugType>pdbonly</DebugType>
     </PropertyGroup>
+
     <PropertyGroup>
         <SignAssembly>true</SignAssembly>
     </PropertyGroup>
+
     <PropertyGroup>
         <AssemblyOriginatorKeyFile>chart-sn.snk</AssemblyOriginatorKeyFile>
         <Authors>riuson</Authors>
@@ -34,5 +37,12 @@
           <PackagePath></PackagePath>
         </None>
         <None Include="chart-sn.snk" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="GitVersionTask" Version="5.2.4">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
     </ItemGroup>
 </Project>
