@@ -32,12 +32,10 @@ namespace Chart.SerieVisualizers {
                         this.Proportion(point.XValue, dataRange.MinX, dataRange.MaxX) * size.Width,
                         size.Height - this.Proportion(point.YValue, dataRange.MinY, dataRange.MaxY) * size.Height);
 
-                    if (!previous.HasValue) {
-                        previous = next;
-                        continue;
+                    if (previous.HasValue) {
+                        dc.DrawLine(pen, previous.Value, next);
                     }
 
-                    dc.DrawLine(pen, previous.Value, next);
                     previous = next;
                 }
             }
