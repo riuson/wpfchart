@@ -17,5 +17,7 @@ namespace Chart.Points {
         double IPoint.XValue => this.X.Ticks;
 
         double IPoint.YValue => this.Y;
+
+        public override string ToString() => $"{nameof(PointDateTime)} {{ {this.X:yyyy-MM-dd HH:mm:ss.ffff} , {this.Y:F6} }}";
     }
 }

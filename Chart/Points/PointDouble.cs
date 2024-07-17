@@ -15,5 +15,7 @@
         double IPoint.XValue => this.X;
 
         double IPoint.YValue => this.Y;
+
+        public override string ToString() => $"{nameof(PointDateTime)} {{ {this.X:F6} , {this.Y:F6} }}";
     }
 }
