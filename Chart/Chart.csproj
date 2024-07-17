@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFrameworks>net461;net472;net48;netcoreapp3.1;net5.0-windows;net6.0-windows;net7.0-windows</TargetFrameworks>
+        <TargetFrameworks>net461;net472;net48;netcoreapp3.1;net5.0-windows;net6.0-windows;net7.0-windows;net8.0-windows</TargetFrameworks>
         <AssemblyTitle>Chart</AssemblyTitle>
         <Company></Company>
         <Product>Chart</Product>
         <Description>Simple chart for WPF</Description>
-        <Copyright>Copyright © 2018</Copyright>
+        <Copyright>Copyright © 2024</Copyright>
         <OutputPath>bin\$(Configuration)\</OutputPath>
         <UseWPF>true</UseWPF>
     </PropertyGroup>
